@@ -179,7 +179,7 @@ void run_redirect_output_append_command(char **para, char *filepath)
     sh_print_para(para);
     int saved_stdout = dup(1);
     close(1);
-    int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 777);
+    int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
     dup(fd);
     int pid = fork();
     if (pid < 0)
@@ -205,11 +205,40 @@ void run_redirect_output_append_command(char **para, char *filepath)
 void run_redirect_input_command(char **para, char *filepath)
 {
     printf("Run Redirect Input Command!\n");
-    sh_print_para(para);
-    int saved_stderr = dup(0);
-    close(0);
-    int fd = open(filepath, O_RDWR | O_CREAT, 777);
-    dup(fd);
+
+    FILE *fd = fopen(filepath, "rw+");
+    char *data[STR_LEN];
+    for (int i = 0; i < STR_LEN; i++)
+    {
+        data[i] = (char *)malloc(STR_LEN * sizeof(char));
+    }
+
+    int data_len = 0;
+    for (int i = 0; fgets(data[i], STR_LEN, fd) != NULL; i++)
+    {
+        data_len++;
+    }
+    int tmp_len = strlen(data[data_len - 1]);
+    data[data_len - 1][tmp_len - 1] = 0;
+
+    free(data[data_len]);
+    data[data_len] = NULL;
+
+    int cnt = 0;
+    for (int i = 0; strcmp(*(para + i), ""); i++)
+    {
+        cnt++;
+    }
+
+    for (int i = 0; *(data + i) != NULL; i++)
+    {
+        strcpy(para[cnt + i], data[i]);
+        cnt++;
+    }
+
+    free(para[cnt]);
+    para[cnt] = NULL;
+
     int pid = fork();
     if (pid < 0)
     {
@@ -225,9 +254,34 @@ void run_redirect_input_command(char **para, char *filepath)
     {
         int status;
         waitpid(pid, &status, 0);
-        close(fd);
-        dup2(saved_stderr, 0);
-        close(saved_stderr);
+        for (int i = 0; i < STR_LEN; i++)
+        {
+            free(data[i]);
+        }
+        fclose(fd);
+    }
+}
+
+void run_input_trunc_command(char **para, char *delim)
+{
+    printf("Run Input Trunc Command!\n");
+    sh_print_para(para);
+
+    int pid = fork();
+    if (pid < 0)
+    {
+        printf("Create Process Fail!\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        execvp(para[0], para);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        int status;
+        waitpid(pid, &status, 0);
     }
 }
 
@@ -237,7 +291,7 @@ void run_redirect_error_command(char **para, char *filepath)
     sh_print_para(para);
     int saved_stderr = dup(2);
     close(2);
-    int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 777);
+    int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
     dup(fd);
     int pid = fork();
     if (pid < 0)
@@ -265,9 +319,9 @@ void sh_input_process(char **args)
     for (int i = 0; *(args + i) != NULL;)
     {
         char *para[STR_LEN];
-        for (int i = 0; i < STR_LEN; i++)
+        for (int j = 0; j < STR_LEN; j++)
         {
-            para[i] = (char *)malloc(STR_LEN * sizeof(char));
+            para[j] = (char *)malloc(STR_LEN * sizeof(char));
         }
         char *filepath = (char *)malloc(STR_LEN * sizeof(char));
         int flag = 0;
@@ -312,13 +366,13 @@ void sh_input_process(char **args)
                 flag = 1;
                 break;
             }
-            else if (!strcmp(*(args + i), "<"))
+            else if (!strcmp(*(args + j), "<"))
             {
                 for (int k = i; k < j; k++)
                 {
+                    printf("%d %s %s\n", k, *(para + k - i), *(args + k));
                     strcpy(para[k - i], *(args + k));
                 }
-                para[j] = NULL;
                 strcpy(filepath, *(args + j + 1));
                 run_redirect_input_command(para, filepath);
                 i = j + 2;
@@ -327,8 +381,18 @@ void sh_input_process(char **args)
             }
             else if (!strcmp(*(args + j), "<<"))
             {
+                for (int k = i; k < j; k++)
+                {
+                    strcpy(para[k - i], *(args + k));
+                }
+                para[j] = NULL;
+                strcpy(filepath, *(args + j + 1));
+                run_input_trunc_command(para, filepath);
+                i = j + 2;
+                flag = 1;
+                break;
             }
-            else if (!strcmp(*(args + i), "|"))
+            else if (!strcmp(*(args + j), "|"))
             {
             }
             else
@@ -348,9 +412,9 @@ void sh_input_process(char **args)
             run_simple_command(para);
             break;
         }
-        for (int i = 0; i < STR_LEN; i++)
+        for (int j = 0; j < STR_LEN; j++)
         {
-            free(para[i]);
+            free(para[j]);
         }
         free(filepath);
     }
@@ -366,6 +430,7 @@ void sh_main_loop()
 
         work_dir = sh_get_work_dir();
 
+        printf("\n");
         printf("%s\n", work_dir);
         printf("---> ");
 
