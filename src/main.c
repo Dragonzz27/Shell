@@ -370,7 +370,6 @@ void sh_input_process(char **args)
             {
                 for (int k = i; k < j; k++)
                 {
-                    printf("%d %s %s\n", k, *(para + k - i), *(args + k));
                     strcpy(para[k - i], *(args + k));
                 }
                 strcpy(filepath, *(args + j + 1));
@@ -394,6 +393,7 @@ void sh_input_process(char **args)
             }
             else if (!strcmp(*(args + j), "|"))
             {
+                break;
             }
             else
             {
