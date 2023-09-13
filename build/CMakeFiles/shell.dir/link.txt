@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/shell.dir/src/builtin.c.o CMakeFiles/shell.dir/src/command.c.o CMakeFiles/shell.dir/src/main.c.o CMakeFiles/shell.dir/src/utils.c.o -o shell 

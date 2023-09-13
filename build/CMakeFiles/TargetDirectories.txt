@@ -1,0 +1,3 @@
+/home/dragonzz/Shell/build/CMakeFiles/shell.dir
+/home/dragonzz/Shell/build/CMakeFiles/edit_cache.dir
+/home/dragonzz/Shell/build/CMakeFiles/rebuild_cache.dir
