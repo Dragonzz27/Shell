@@ -7,10 +7,17 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "readline/history.h"
+#include "readline/readline.h"
+
 #include "utils.h"
 #include "types.h"
 #include "builtin.h"
 #include "command.h"
+
+#define CLOSE "\001\033[0m\002"
+#define BLOD "\001\033[1m\002"
+#define BEGIN(x, y) "\001\033[" #x ";" #y "m\002"
 
 void sh_input_process(char **args)
 {
@@ -66,7 +73,6 @@ void sh_input_process(char **args)
             }
             else if (!strcmp(*(args + j), "<"))
             {
-                printf("Function <\n");
                 sh_print_para(args);
                 for (int k = i; k < j; k++)
                 {
@@ -109,7 +115,6 @@ void sh_input_process(char **args)
             }
             free(para[cnt]);
             para[cnt] = NULL;
-            printf("before run simple command!\n");
             run_simple_command(para);
             break;
         }
@@ -123,6 +128,7 @@ void sh_input_process(char **args)
 
 void sh_main_loop()
 {
+    read_history("./command_history.txt");
     while (1)
     {
         char *work_dir;
@@ -133,8 +139,13 @@ void sh_main_loop()
 
         printf("\n");
         printf("%s\n", work_dir);
-        printf("---> ");
 
+        char *tmp_input_content = readline(BEGIN(49, 36) BLOD "---> " CLOSE);
+        add_history(tmp_input_content);
+        write_history("./command_history.txt");
+
+        strcpy(input_content, tmp_input_content);
+        free(tmp_input_content);
         input_content = sh_read_line();
         sh_input_preprocess(input_content);
         args = sh_split_line(input_content);

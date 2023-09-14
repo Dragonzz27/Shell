@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/dragonzz/Shell/include
+C_INCLUDES = -I/home/dragonzz/Shell/include -I/home/dragonzz/Shell/lib/include
 
 C_FLAGS = 
 

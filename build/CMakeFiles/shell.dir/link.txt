@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/shell.dir/src/builtin.c.o CMakeFiles/shell.dir/src/command.c.o CMakeFiles/shell.dir/src/main.c.o CMakeFiles/shell.dir/src/utils.c.o -o shell 
+/usr/bin/cc CMakeFiles/shell.dir/src/builtin.c.o CMakeFiles/shell.dir/src/command.c.o CMakeFiles/shell.dir/src/main.c.o CMakeFiles/shell.dir/src/utils.c.o -o /home/dragonzz/Shell/bin/shell   -L/home/dragonzz/Shell/lib/lib/readline  -Wl,-rpath,/home/dragonzz/Shell/lib/lib/readline -lreadline -lhistory -ltinfo 
