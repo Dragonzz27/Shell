@@ -1,0 +1,6 @@
+ls
+cd bin/
+chdir bin
+ls
+expr 1 + 2
+exit
