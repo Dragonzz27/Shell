@@ -7,9 +7,9 @@
 
 void sh_print_para(char **args)
 {
-    for (int i = 0; *(args + i) != NULL; i++)
+    for (int i = 0; args[i] != NULL; i++)
     {
-        printf("%d\t%s\n", i, *(args + i));
+        printf("%d\t%s\n", i, args[i]);
     }
 }
 

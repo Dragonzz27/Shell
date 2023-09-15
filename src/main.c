@@ -149,7 +149,7 @@ void sh_main_loop()
 
     if (access(config_path, F_OK))
     {
-        mkdir(config_path, 0644);
+        mkdir(config_path, 0774);
     }
 
     strcat(history_path, pwd->pw_dir);

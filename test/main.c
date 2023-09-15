@@ -8,10 +8,25 @@
 
 int main()
 {
-    struct passwd *pwd;
-    pwd = getpwuid(getuid());
-    printf("%s\n", pwd->pw_dir);
-    printf("%ld\n", pwd);
-    free(pwd);
+    char *para[100];
+    for (int i = 0; i < 100; i++)
+    {
+        para[i] = (char *)calloc(100, sizeof(char));
+    }
+
+    strcpy(para[0], "string0");
+    strcpy(para[1], "string1");
+    strcpy(para[2], "string2");
+
+    for (int i = 0; strcmp(para[i], ""); i++)
+    {
+        printf("%s\n", para[i]);
+    }
+
+    for (int i = 0; i < 100; i++)
+    {
+        free(para[i]);
+    }
+
     return 0;
 }

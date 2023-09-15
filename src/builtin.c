@@ -20,7 +20,14 @@ void sh_builtin_help()
     {
         printf("%s\n", *(cmd + i));
     }
+    
 }
+
+void sh_builtin_where() {
+
+}
+
+
 
 void sh_builtin_exit()
 {
