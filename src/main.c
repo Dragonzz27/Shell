@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <pwd.h>
 
 #include "readline/history.h"
 #include "readline/readline.h"
@@ -97,6 +98,15 @@ void sh_input_process(char **args)
                 flag = 1;
                 break;
             }
+            else if (!strcmp(*(args + j), "2>>"))
+            {
+                for (int k = i; k < j; k++)
+                {
+                    strcpy(para[k - i], *(args + k));
+                }
+                strcpy(filepath, args[j + 1]);
+                run_redirect_error_append_command(para, filepath);
+            }
             else if (!strcmp(*(args + j), "|"))
             {
                 break;
@@ -128,8 +138,30 @@ void sh_input_process(char **args)
 
 void sh_main_loop()
 {
-    
-    read_history("./command_history.txt");
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    char *config_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *history_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *environment_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *tmp_data_path = (char *)calloc(STR_LEN, sizeof(char));
+    strcat(config_path, pwd->pw_dir);
+    strcat(config_path, "/.fish");
+
+    if (access(config_path, F_OK))
+    {
+        mkdir(config_path, 0644);
+    }
+
+    strcat(history_path, pwd->pw_dir);
+    strcat(history_path, "/.fish/command_history.txt");
+
+    strcpy(environment_path, pwd->pw_dir);
+    strcat(environment_path, "/.fish/environment.txt");
+
+    strcpy(tmp_data_path, pwd->pw_dir);
+    strcat(tmp_data_path, "/.fish/tmp_data.txt");
+
+    read_history(history_path);
     while (1)
     {
         char *work_dir;
@@ -143,7 +175,7 @@ void sh_main_loop()
 
         input_content = readline(BEGIN(49, 36) BLOD "---> " CLOSE);
         add_history(input_content);
-        write_history("./command_history.txt");
+        write_history(history_path);
 
         sh_input_preprocess(input_content);
         args = sh_split_line(input_content);
@@ -159,6 +191,8 @@ void sh_main_loop()
         free(input_content);
         free(args);
     }
+    free(history_path);
+    free(pwd);
 }
 
 int main(int argc, char **argv)

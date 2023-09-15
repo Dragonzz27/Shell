@@ -1,12 +1,17 @@
 #include <unistd.h>
-#include <malloc.h>
-#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <string.h>
-
-#include "../include/utils.h"
+#include <stdlib.h>
+#include <pwd.h>
+#include <stdio.h>
 
 int main()
 {
-    printf("%s\n", sh_get_work_dir());
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    printf("%s\n", pwd->pw_dir);
+    printf("%ld\n", pwd);
+    free(pwd);
     return 0;
 }

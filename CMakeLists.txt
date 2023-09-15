@@ -10,8 +10,6 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/include)
 
 aux_source_directory(src SRC_LIST)
 
-file(GLOB LIB_READLINE ${PROJECT_SOURCE_DIR}/lib/lib/readline/*)
-
 link_directories(${PROJECT_SOURCE_DIR}/lib/lib/readline)
 
 add_executable(shell ${SRC_LIST})

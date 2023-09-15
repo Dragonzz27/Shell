@@ -4,3 +4,7 @@ chdir bin
 ls
 expr 1 + 2
 exit
+ls
+ls > a
+cat a
+rm a

@@ -154,6 +154,57 @@ void run_input_trunc_command(char **para, char *delim)
     printf("Run Input Trunc Command!\n");
     sh_print_para(para);
 
+    char *input[STR_LEN];
+    for (int i = 0; i < STR_LEN; i++)
+    {
+        input[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+
+    for (int i = 0; fgets(input[i], STR_LEN, stdin); i++)
+    {
+    };
+
+    int cnt = 0;
+    for (int i = 0; strcmp(para[i], ""); i++)
+    {
+        cnt++;
+    }
+
+    for (int i = 0; strcmp(input[i], ""); i++)
+    {
+        int is_delim = 0;
+        for (int j = 0; j + strlen(delim) - 1 < strlen(input[i]); j++)
+        {
+            int flag = 0;
+            for (int k = 0; k < strlen(delim); k++)
+            {
+                if (input[i][j + k] == delim[k])
+                {
+                    flag++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (flag == strlen(delim))
+            {
+                is_delim = 1;
+            }
+        }
+        if (is_delim)
+        {
+            break;
+        }
+        else
+        {
+            strcpy(para[cnt + i], input[i]);
+            cnt++;
+        }
+    }
+    free(para[cnt]);
+    para[cnt] = NULL;
+
     int pid = fork();
     if (pid < 0)
     {
@@ -169,6 +220,10 @@ void run_input_trunc_command(char **para, char *delim)
     {
         int status;
         waitpid(pid, &status, 0);
+        for (int i = 0; i < STR_LEN; i++)
+        {
+            free(input[i]);
+        }
     }
 }
 
@@ -179,6 +234,35 @@ void run_redirect_error_command(char **para, char *filepath)
     int saved_stderr = dup(2);
     close(2);
     int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
+    dup(fd);
+    int pid = fork();
+    if (pid < 0)
+    {
+        printf("Create Process Fail!\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        execvp(para[0], para);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        int status;
+        waitpid(pid, &status, 0);
+        close(fd);
+        dup2(saved_stderr, 2);
+        close(saved_stderr);
+    }
+}
+
+void run_redirect_error_append_command(char **para, char *filepath)
+{
+    printf("Run Redirect Error Append Command!\n");
+    sh_print_para(para);
+    int saved_stderr = dup(2);
+    close(2);
+    int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
     dup(fd);
     int pid = fork();
     if (pid < 0)
