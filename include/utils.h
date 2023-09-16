@@ -9,3 +9,5 @@ char *sh_read_line(void);
 void *sh_input_preprocess(char *input_content);
 
 char **sh_split_line(char *input_content);
+
+void sh_para_addnull(char **para);

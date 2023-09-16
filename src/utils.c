@@ -7,7 +7,7 @@
 
 void sh_print_para(char **args)
 {
-    for (int i = 0; args[i] != NULL; i++)
+    for (int i = 0; strcmp(args[i], ""); i++)
     {
         printf("%d\t%s\n", i, args[i]);
     }
@@ -15,23 +15,21 @@ void sh_print_para(char **args)
 
 char *sh_get_work_dir(void)
 {
-    char *work_dir;
-    work_dir = (char *)malloc(STR_LEN * sizeof(char));
+    char *work_dir = (char *)calloc(STR_LEN, sizeof(char));
     getcwd(work_dir, STR_LEN);
     return work_dir;
 }
 
 char *sh_read_line()
 {
-    char *line;
-    line = (char *)malloc(STR_LEN * sizeof(char));
+    char *line = (char *)calloc(STR_LEN, sizeof(char));
     fgets(line, STR_LEN, stdin);
     return line;
 }
 
 void *sh_input_preprocess(char *input_content)
 {
-    char tmp[STR_LEN];
+    char *tmp = (char *)calloc(STR_LEN, sizeof(char));
     int cnt = 0;
     for (int i = 0; i < strlen(input_content); i++)
     {
@@ -65,12 +63,13 @@ void *sh_input_preprocess(char *input_content)
     }
     tmp[cnt] = 0;
     strcpy(input_content, tmp);
+    free(tmp);
 }
 
 char **sh_split_line(char *input_content)
 {
     int cnt = 0;
-    char **tokens = (char **)calloc(STR_LEN, sizeof(char *));
+    char **tokens = (char **)calloc(ARR_LEN, sizeof(char *));
     char *token;
     token = strtok(input_content, " \t\r\n");
     while (token != NULL)
@@ -78,6 +77,16 @@ char **sh_split_line(char *input_content)
         tokens[cnt++] = token;
         token = strtok(NULL, " \t\r\n");
     }
-    tokens[cnt] = NULL;
     return tokens;
+}
+
+void sh_para_addnull(char **para)
+{
+    int cnt = 0;
+    for (int i = 0; strcmp(para[i], ""); i++)
+    {
+        cnt++;
+    }
+    free(para[cnt]);
+    para[cnt] = NULL;
 }

@@ -13,6 +13,7 @@ void run_simple_command(char **para)
 {
     printf("Run Simple Command!\n");
     sh_print_para(para);
+
     int pid = fork();
     if (pid < 0)
     {
@@ -21,6 +22,7 @@ void run_simple_command(char **para)
     }
     else if (pid == 0)
     {
+        sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
     }
@@ -47,6 +49,7 @@ void run_redirect_output_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+
         execvp(para[0], para);
         exit(EXIT_FAILURE);
     }
@@ -260,10 +263,12 @@ void run_redirect_error_append_command(char **para, char *filepath)
 {
     printf("Run Redirect Error Append Command!\n");
     sh_print_para(para);
+
     int saved_stderr = dup(2);
     close(2);
     int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
     dup(fd);
+
     int pid = fork();
     if (pid < 0)
     {

@@ -11,3 +11,5 @@
  void run_input_trunc_command(char **para, char *delim);
 
  void run_redirect_error_command(char **para, char *filepath);
+
+ void run_redirect_error_append_command(char **para, char *filepath);

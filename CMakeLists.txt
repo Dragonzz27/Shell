@@ -8,7 +8,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 include_directories(${PROJECT_SOURCE_DIR}/lib/include)
 
-aux_source_directory(src SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST)
 
 link_directories(${PROJECT_SOURCE_DIR}/lib/lib/readline)
 

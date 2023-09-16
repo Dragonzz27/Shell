@@ -20,6 +20,10 @@ void sh_builtin_help()
     {
         printf("%s\n", *(cmd + i));
     }
+
+}
+
+void sh_builtin_alias() {
     
 }
 

@@ -1,8 +1,5 @@
 cd ./build
-rm -rf ./*
+rm -rf *
 cmake ..
 make 
-cd ..
-cd ./bin
-cd ..
-./bin/shell
+../bin/shell

@@ -81,12 +81,12 @@ clean: CMakeFiles/shell.dir/clean
 CMakeFiles/shell.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target shell"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target shell"
 .PHONY : CMakeFiles/shell.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/shell.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dragonzz/Shell/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dragonzz/Shell/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/shell.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dragonzz/Shell/build/CMakeFiles 0
 .PHONY : CMakeFiles/shell.dir/rule

@@ -201,6 +201,30 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/main.c.s
 .PHONY : src/main.c.s
 
+src/process.o: src/process.c.o
+.PHONY : src/process.o
+
+# target to build an object file
+src/process.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.o
+.PHONY : src/process.c.o
+
+src/process.i: src/process.c.i
+.PHONY : src/process.i
+
+# target to preprocess a source file
+src/process.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.i
+.PHONY : src/process.c.i
+
+src/process.s: src/process.c.s
+.PHONY : src/process.s
+
+# target to generate assembly for a file
+src/process.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.s
+.PHONY : src/process.c.s
+
 src/utils.o: src/utils.c.o
 .PHONY : src/utils.o
 
@@ -243,6 +267,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/process.o"
+	@echo "... src/process.i"
+	@echo "... src/process.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
