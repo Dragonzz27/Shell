@@ -8,25 +8,26 @@
 
 int main()
 {
-    char *para[100];
+    char *tokens[100];
     for (int i = 0; i < 100; i++)
     {
-        para[i] = (char *)calloc(100, sizeof(char));
+        tokens[i] = (char *)calloc(100, sizeof(char));
     }
 
-    strcpy(para[0], "string0");
-    strcpy(para[1], "string1");
-    strcpy(para[2], "string2");
+    char *string = (char *)calloc(100, sizeof(char));
+    strcpy(string, "Hello World! Hello World! ");
+    char *token;
 
-    for (int i = 0; strcmp(para[i], ""); i++)
+    printf("FLAG 1\n");
+    token = strtok(string, " ");
+    printf("FLAG 2\n");
+
+    while (token != NULL)
     {
-        printf("%s\n", para[i]);
+        printf("%s\n", token);
+        token = strtok(NULL, " ");
     }
-
-    for (int i = 0; i < 100; i++)
-    {
-        free(para[i]);
-    }
+    printf("%s\n", string);
 
     return 0;
 }

@@ -1,5 +1,5 @@
 #pragma once
 
-const int STR_LEN = 100;
+extern int STR_LEN;
 
-const int ARR_LEN = 100;
+extern int ARR_LEN;

@@ -5,12 +5,14 @@
 
 #include "types.h"
 
-void sh_print_para(char **args)
+void sh_print_para(char **tokens)
 {
-    for (int i = 0; strcmp(args[i], ""); i++)
+    for (int i = 0; strcmp(tokens[i], ""); i++)
     {
-        printf("%d\t%s\n", i, args[i]);
+        printf("%d\t%s\n", i, tokens[i]);
     }
+    printf("\n");
+    printf("Result:\n");
 }
 
 char *sh_get_work_dir(void)
@@ -27,14 +29,14 @@ char *sh_read_line()
     return line;
 }
 
-void *sh_input_preprocess(char *input_content)
+void *sh_input_preprocess(char *input)
 {
     char *tmp = (char *)calloc(STR_LEN, sizeof(char));
     int cnt = 0;
-    for (int i = 0; i < strlen(input_content); i++)
+    for (int i = 0; i < strlen(input); i++)
     {
         char pre_ch = 0;
-        char ch = *(input_content + i);
+        char ch = *(input + i);
         if (ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '&')
         {
             if (pre_ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '&')
@@ -62,22 +64,30 @@ void *sh_input_preprocess(char *input_content)
         pre_ch = ch;
     }
     tmp[cnt] = 0;
-    strcpy(input_content, tmp);
+    strcpy(input, tmp);
     free(tmp);
+    tmp = NULL;
 }
 
-char **sh_split_line(char *input_content)
+void sh_split_line(char *input, char *tokens[ARR_LEN])
 {
     int cnt = 0;
-    char **tokens = (char **)calloc(ARR_LEN, sizeof(char *));
     char *token;
-    token = strtok(input_content, " \t\r\n");
+    token = strtok(input, " \t\r\n");
     while (token != NULL)
     {
-        tokens[cnt++] = token;
+        strcpy(tokens[cnt++], token);
         token = strtok(NULL, " \t\r\n");
     }
-    return tokens;
+}
+
+void sh_data_preprocess(char **data)
+{
+    for (int i = 0; strcmp(data[i], ""); i++)
+    {
+        int len = strlen(data[i]);
+        data[i][len - 1] = 0;
+    }
 }
 
 void sh_para_addnull(char **para)

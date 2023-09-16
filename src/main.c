@@ -25,17 +25,14 @@ void sh_main_loop()
 {
     struct passwd *pwd;
     pwd = getpwuid(getuid());
+
     char *config_path = (char *)calloc(STR_LEN, sizeof(char));
     char *history_path = (char *)calloc(STR_LEN, sizeof(char));
     char *environment_path = (char *)calloc(STR_LEN, sizeof(char));
     char *tmp_data_path = (char *)calloc(STR_LEN, sizeof(char));
+
     strcat(config_path, pwd->pw_dir);
     strcat(config_path, "/.fish");
-
-    if (access(config_path, F_OK))
-    {
-        mkdir(config_path, 0774);
-    }
 
     strcat(history_path, pwd->pw_dir);
     strcat(history_path, "/.fish/command_history.txt");
@@ -46,33 +43,58 @@ void sh_main_loop()
     strcpy(tmp_data_path, pwd->pw_dir);
     strcat(tmp_data_path, "/.fish/tmp_data.txt");
 
+    if (access(config_path, F_OK))
+    {
+        mkdir(config_path, 0774);
+    }
+
     read_history(history_path);
+
     while (1)
     {
         char *work_dir;
-        char *input_content;
-        char **args;
+        char *input;
+        char *tokens[ARR_LEN];
+
+        for (int i = 0; i < ARR_LEN; i++)
+        {
+            tokens[i] = (char *)calloc(STR_LEN, sizeof(char));
+        }
 
         work_dir = sh_get_work_dir();
 
         printf("\n");
         printf("%s\n", work_dir);
 
-        input_content = readline(BEGIN(49, 36) BLOD "---> " CLOSE);
-        add_history(input_content);
+        input = readline(BEGIN(49, 36) BLOD "---> " CLOSE);
+        add_history(input);
         write_history(history_path);
 
-        sh_input_preprocess(input_content);
-        args = sh_split_line(input_content);
+        sh_input_preprocess(input);
+        sh_split_line(input, tokens);
 
-        sh_input_process(args);
+        sh_input_process(tokens);
 
         free(work_dir);
-        free(input_content);
-        free(args);
+        work_dir = NULL;
+        free(input);
+        input = NULL;
+        for (int i = 0; i < ARR_LEN; i++)
+        {
+            free(tokens[i]);
+            tokens[i] = NULL;
+        }
     }
+    free(tmp_data_path);
+    tmp_data_path = NULL;
+    free(environment_path);
+    environment_path = NULL;
     free(history_path);
+    history_path = NULL;
+    free(config_path);
+    config_path = NULL;
     free(pwd);
+    pwd = NULL;
 }
 
 int main(int argc, char **argv)

@@ -1,13 +1,14 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "types.h"
 #include "utils.h"
 #include "command.h"
 
-void sh_input_process(char **args)
+void sh_input_process(char **tokens)
 {
-    for (int i = 0; strcmp(args[i], "");)
+    for (int i = 0; strcmp(tokens[i], "");)
     {
         char *para[ARR_LEN];
         for (int j = 0; j < ARR_LEN; j++)
@@ -16,79 +17,79 @@ void sh_input_process(char **args)
         }
         char *filepath = (char *)calloc(STR_LEN, sizeof(char));
         int flag = 0;
-        for (int j = i + 1; strcmp(args[j], ""); j++)
+        for (int j = i + 1; strcmp(tokens[j], ""); j++)
         {
-            if (!strcmp(args[j], ">"))
+            if (!strcmp(tokens[j], ">"))
             {
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, args[j + 1]);
+                strcpy(filepath, tokens[j + 1]);
                 run_redirect_output_command(para, filepath);
                 i = j + 2;
                 flag = 1;
                 break;
             }
-            else if (!strcmp(args[j], "2>"))
+            else if (!strcmp(tokens[j], "2>"))
             {
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, args[j + 1]);
+                strcpy(filepath, tokens[j + 1]);
                 run_redirect_error_command(para, filepath);
                 i = j + 2;
                 flag = 1;
                 break;
             }
-            else if (!strcmp(args[j], ">>"))
+            else if (!strcmp(tokens[j], ">>"))
             {
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, args[j + 1]);
+                strcpy(filepath, tokens[j + 1]);
                 run_redirect_output_append_command(para, filepath);
                 i = j + 2;
                 flag = 1;
                 break;
             }
-            else if (!strcmp(args[j], "<"))
+            else if (!strcmp(tokens[j], "<"))
             {
-                sh_print_para(args);
+                sh_print_para(tokens);
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, *(args + j + 1));
+                strcpy(filepath, *(tokens + j + 1));
                 run_redirect_input_command(para, filepath);
                 i = j + 2;
                 flag = 1;
                 break;
             }
-            else if (!strcmp(args[j], "<<"))
+            else if (!strcmp(tokens[j], "<<"))
             {
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, args[j + 1]);
+                strcpy(filepath, tokens[j + 1]);
                 run_input_trunc_command(para, filepath);
                 i = j + 2;
                 flag = 1;
                 break;
             }
-            else if (!strcmp(args[j], "2>>"))
+            else if (!strcmp(tokens[j], "2>>"))
             {
                 for (int k = i; k < j; k++)
                 {
-                    strcpy(para[k - i], args[k]);
+                    strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, args[j + 1]);
+                strcpy(filepath, tokens[j + 1]);
                 run_redirect_error_append_command(para, filepath);
             }
-            else if (!strcmp(args[j], "|"))
+            else if (!strcmp(tokens[j], "|"))
             {
                 break;
             }
@@ -99,9 +100,9 @@ void sh_input_process(char **args)
         if (flag == 0)
         {
             int cnt = 0;
-            for (int k = i; args[k] != NULL; k++)
+            for (int k = i; strcmp(tokens[k], ""); k++)
             {
-                strcpy(para[k - i], args[k]);
+                strcpy(para[k - i], tokens[k]);
                 cnt++;
             }
             run_simple_command(para);
@@ -110,7 +111,9 @@ void sh_input_process(char **args)
         for (int j = 0; j < STR_LEN; j++)
         {
             free(para[j]);
+            para[j] = NULL;
         }
         free(filepath);
+        filepath = NULL;
     }
 }
