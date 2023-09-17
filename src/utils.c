@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pwd.h>
 
 #include "types.h"
 
@@ -20,6 +21,16 @@ char *sh_get_work_dir(void)
     char *work_dir = (char *)calloc(STR_LEN, sizeof(char));
     getcwd(work_dir, STR_LEN);
     return work_dir;
+}
+
+char *sh_get_pipeline_path(void)
+{
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    char *pipeline_path = (char *)calloc(STR_LEN, sizeof(char));
+    strcpy(pipeline_path, pwd->pw_dir);
+    strcat(pipeline_path, "/.fish/pipeline");
+    return pipeline_path;
 }
 
 char *sh_read_line()

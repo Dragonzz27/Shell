@@ -6,6 +6,8 @@ void sh_print_para(char **args);
 
 char *sh_get_work_dir(void);
 
+char *sh_get_pipeline_path(void);
+
 char *sh_read_line(void);
 
 void *sh_input_preprocess(char *input_content);

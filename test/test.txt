@@ -1,2 +1,0 @@
-Write by oldfd.
-Write by newfd.

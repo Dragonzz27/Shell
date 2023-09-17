@@ -10,6 +10,11 @@ void sh_input_process(char **tokens)
 {
     for (int i = 0; strcmp(tokens[i], "");)
     {
+        int is_pipe = 0;
+        if (i && !strcmp(tokens[i - 1], "|"))
+        {
+            is_pipe = 1;
+        }
         char *para[ARR_LEN];
         for (int j = 0; j < ARR_LEN; j++)
         {
@@ -57,7 +62,6 @@ void sh_input_process(char **tokens)
             }
             else if (!strcmp(tokens[j], "<"))
             {
-                sh_print_para(tokens);
                 for (int k = i; k < j; k++)
                 {
                     strcpy(para[k - i], tokens[k]);
@@ -92,14 +96,15 @@ void sh_input_process(char **tokens)
                 flag = 1;
                 break;
             }
-            else if (!strcmp(tokens[j], "2&>1"))
+            else if (!strcmp(tokens[j], "2>&1"))
             {
                 for (int k = i; k < j; k++)
                 {
                     strcpy(para[k - i], tokens[k]);
                 }
-                run_redirect_output_error_command(para);
-                i = j + 1;
+                strcpy(filepath, tokens[j + 1]);
+                run_redirect_output_error_command(para, filepath);
+                i = j + 2;
                 flag = 1;
                 break;
             }
@@ -126,7 +131,7 @@ void sh_input_process(char **tokens)
                 strcpy(para[k - i], tokens[k]);
                 cnt++;
             }
-            run_simple_command(para);
+            run_simple_command(para, is_pipe);
             break;
         }
         for (int j = 0; j < STR_LEN; j++)

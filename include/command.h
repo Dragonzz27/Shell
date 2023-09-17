@@ -1,6 +1,6 @@
 #pragma once
 
-void run_simple_command(char **para);
+void run_simple_command(char **para, int is_pipe);
 
 void run_redirect_output_command(char **para, char *filepath);
 
@@ -14,6 +14,6 @@ void run_redirect_error_command(char **para, char *filepath);
 
 void run_redirect_error_append_command(char **para, char *filepath);
 
-void run_redirect_output_error_command(char **para);
+void run_redirect_output_error_command(char **para, char *filepath);
 
 void run_redirect_pipeline_command(char **para);
