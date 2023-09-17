@@ -152,16 +152,6 @@ void run_redirect_input_command(char **para, char *filepath, int is_pipe_end)
             strcpy(para[para_len + i], data[i]);
         }
 
-        for (int i = 0; strcmp(para[i], ""); i++)
-        {
-            printf("%s\n", para[i]);
-            for (int j = 0; j < strlen(para[i]); j++)
-            {
-                printf("%d ", para[i][j]);
-            }
-            printf("\n");
-        }
-
         if (is_pipe_end)
         {
             char *path = sh_get_pipeline_path();
