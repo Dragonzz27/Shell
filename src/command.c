@@ -36,11 +36,10 @@ void run_redirect_output_command(char **para, char *filepath)
 {
     printf("Run Redirect Output Command!\n");
     sh_print_para(para);
-    int saved_stdout = dup(1);
-    printf("Saved Stdout: %d\n", saved_stdout);
-    close(1);
-    int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
-    dup(fd);
+    // int saved_stdout = dup(1);
+    // close(1);
+    // int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
+    // dup(fd);
     int pid = fork();
     if (pid < 0)
     {
@@ -49,6 +48,10 @@ void run_redirect_output_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        int saved_stdout = dup(1);
+        close(1);
+        int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
+        dup(fd);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -57,9 +60,9 @@ void run_redirect_output_command(char **para, char *filepath)
     {
         int status;
         waitpid(pid, &status, 0);
-        close(fd);
-        dup2(saved_stdout, 1);
-        close(saved_stdout);
+        // close(fd);
+        // dup2(saved_stdout, 1);
+        // close(saved_stdout);
     }
 }
 
