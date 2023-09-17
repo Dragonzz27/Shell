@@ -10,7 +10,7 @@ void sh_print_para(char **tokens)
 {
     for (int i = 0; strcmp(tokens[i], ""); i++)
     {
-        printf("%d\t%s\n", i, tokens[i]);
+        printf("[%d] %s\n", i, tokens[i]);
     }
     printf("\n");
     printf("Result:\n");
@@ -44,13 +44,14 @@ void *sh_input_preprocess(char *input)
 {
     char *tmp = (char *)calloc(STR_LEN, sizeof(char));
     int cnt = 0;
+    char pre_ch = 0;
+    char ch = 0;
     for (int i = 0; i < strlen(input); i++)
     {
-        char pre_ch = 0;
-        char ch = *(input + i);
+        ch = input[i];
         if (ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '&')
         {
-            if (pre_ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '&')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-' || pre_ch == '&')
             {
                 tmp[cnt++] = ch;
             }
@@ -62,7 +63,7 @@ void *sh_input_preprocess(char *input)
         }
         else
         {
-            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-' || pre_ch == '&')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '&')
             {
                 tmp[cnt++] = ' ';
                 tmp[cnt++] = ch;

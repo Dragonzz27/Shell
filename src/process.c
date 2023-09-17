@@ -10,10 +10,11 @@ void sh_input_process(char **tokens)
 {
     for (int i = 0; strcmp(tokens[i], "");)
     {
-        int is_pipe = 0;
+        int is_pipe_front = 0;
+        int is_pipe_end = 0;
         if (i && !strcmp(tokens[i - 1], "|"))
         {
-            is_pipe = 1;
+            is_pipe_front = 1;
         }
         char *para[ARR_LEN];
         for (int j = 0; j < ARR_LEN; j++)
@@ -31,7 +32,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_command(para, filepath, is_pipe);
+                run_redirect_output_command(para, filepath, is_pipe_front);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -43,7 +44,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_command(para, filepath, is_pipe);
+                run_redirect_error_command(para, filepath, is_pipe_front);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -55,7 +56,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_append_command(para, filepath, is_pipe);
+                run_redirect_output_append_command(para, filepath, is_pipe_front);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -66,9 +67,17 @@ void sh_input_process(char **tokens)
                 {
                     strcpy(para[k - i], tokens[k]);
                 }
-                strcpy(filepath, *(tokens + j + 1));
-                run_redirect_input_command(para, filepath);
-                i = j + 2;
+                strcpy(filepath, tokens[j + 1]);
+                if (strcmp(tokens[j + 2], "") && !strcmp(tokens[j + 2], "|"))
+                {
+                    is_pipe_end = 1;
+                    i = j + 3;
+                }
+                else
+                {
+                    i = j + 2;
+                }
+                run_redirect_input_command(para, filepath, is_pipe_end);
                 flag = 1;
                 break;
             }
@@ -79,8 +88,16 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_input_trunc_command(para, filepath);
-                i = j + 2;
+                if (strcmp(tokens[j + 2], "") && !strcmp(tokens[j + 2], "|"))
+                {
+                    is_pipe_end = 1;
+                    i = j + 3;
+                }
+                else
+                {
+                    i = j + 2;
+                }
+                run_input_trunc_command(para, filepath, is_pipe_front, is_pipe_end);
                 flag = 1;
                 break;
             }
@@ -91,7 +108,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_append_command(para, filepath, is_pipe);
+                run_redirect_error_append_command(para, filepath, is_pipe_front);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -103,7 +120,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_error_command(para, filepath, is_pipe);
+                run_redirect_output_error_command(para, filepath, is_pipe_front);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -114,7 +131,7 @@ void sh_input_process(char **tokens)
                 {
                     strcpy(para[k - i], tokens[k]);
                 }
-                run_redirect_pipeline_command(para, is_pipe);
+                run_redirect_pipeline_command(para, is_pipe_front);
                 i = j + 1;
                 flag = 1;
                 break;
@@ -131,7 +148,7 @@ void sh_input_process(char **tokens)
                 strcpy(para[k - i], tokens[k]);
                 cnt++;
             }
-            run_simple_command(para, is_pipe);
+            run_simple_command(para, is_pipe_front);
             break;
         }
         for (int j = 0; j < STR_LEN; j++)

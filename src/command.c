@@ -10,7 +10,7 @@
 #include "types.h"
 #include "utils.h"
 
-void run_simple_command(char **para, int is_pipe)
+void run_simple_command(char **para, int is_pipe_front)
 {
     printf("Run Simple Command!\n");
     sh_print_para(para);
@@ -22,7 +22,7 @@ void run_simple_command(char **para, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -40,7 +40,7 @@ void run_simple_command(char **para, int is_pipe)
     }
 }
 
-void run_redirect_output_command(char **para, char *filepath, int is_pipe)
+void run_redirect_output_command(char **para, char *filepath, int is_pipe_front)
 {
     printf("Run Redirect Output Command!\n");
     sh_print_para(para);
@@ -52,7 +52,7 @@ void run_redirect_output_command(char **para, char *filepath, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -73,7 +73,7 @@ void run_redirect_output_command(char **para, char *filepath, int is_pipe)
     }
 }
 
-void run_redirect_output_append_command(char **para, char *filepath, int is_pipe)
+void run_redirect_output_append_command(char **para, char *filepath, int is_pipe_front)
 {
     printf("Run Redirect Output Append Command!\n");
     sh_print_para(para);
@@ -85,7 +85,7 @@ void run_redirect_output_append_command(char **para, char *filepath, int is_pipe
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -106,7 +106,7 @@ void run_redirect_output_append_command(char **para, char *filepath, int is_pipe
     }
 }
 
-void run_redirect_input_command(char **para, char *filepath)
+void run_redirect_input_command(char **para, char *filepath, int is_pipe_end)
 {
     printf("Run Redirect Input Command!\n");
     sh_print_para(para);
@@ -136,7 +136,10 @@ void run_redirect_input_command(char **para, char *filepath)
         {
         }
 
-        sh_data_preprocess(data);
+        if (!is_pipe_end)
+        {
+            sh_data_preprocess(data);
+        }
 
         int para_len = 0;
         for (int i = 0; strcmp(para[i], ""); i++)
@@ -147,6 +150,24 @@ void run_redirect_input_command(char **para, char *filepath)
         for (int i = 0; strcmp(data[i], ""); i++)
         {
             strcpy(para[para_len + i], data[i]);
+        }
+
+        for (int i = 0; strcmp(para[i], ""); i++)
+        {
+            printf("%s\n", para[i]);
+            for (int j = 0; j < strlen(para[i]); j++)
+            {
+                printf("%d ", para[i][j]);
+            }
+            printf("\n");
+        }
+
+        if (is_pipe_end)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+            close(1);
+            dup(fd);
         }
 
         sh_para_addnull(para);
@@ -160,7 +181,7 @@ void run_redirect_input_command(char **para, char *filepath)
     }
 }
 
-void run_input_trunc_command(char **para, char *delim)
+void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is_pipe_end)
 {
     printf("Run Input Trunc Command!\n");
     sh_print_para(para);
@@ -179,19 +200,33 @@ void run_input_trunc_command(char **para, char *delim)
             data[i] = (char *)calloc(STR_LEN, sizeof(char));
         }
 
-        for (int i = 0; fgets(data[i], STR_LEN, stdin); i++)
+        if (is_pipe_front)
         {
-        };
+            char *path = sh_get_pipeline_path();
+            FILE *fp = fopen(path, "r+");
+            for (int i = 0; fgets(data[i], STR_LEN, fp); i++)
+            {
+                printf("[%d]: %s\n", i, data[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; fgets(data[i], STR_LEN, stdin); i++)
+            {
+            }
+        }
 
         int para_len = 0;
         for (int i = 0; strcmp(para[i], ""); i++)
         {
+            printf("[%d]: %s\n", i, para[i]);
             para_len++;
         }
 
         for (int i = 0; strcmp(data[i], ""); i++)
         {
             int is_delim = 0;
+            char tmp[STR_LEN];
             for (int j = 0; j + strlen(delim) - 1 < strlen(data[i]); j++)
             {
                 int flag = 0;
@@ -209,18 +244,32 @@ void run_input_trunc_command(char **para, char *delim)
                 if (flag == strlen(delim))
                 {
                     is_delim = 1;
+                    break;
                 }
+                tmp[j] = data[i][j];
+                tmp[j + 1] = '\0';
             }
             if (is_delim)
             {
+                strcpy(para[para_len++], tmp);
                 break;
             }
             else
             {
-                strcpy(para[para_len + i], data[i]);
-                para_len++;
+                strcpy(para[para_len++], tmp);
             }
         }
+
+        sh_print_para(para);
+
+        if (is_pipe_end)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+            close(1);
+            dup(fd);
+        }
+
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -232,7 +281,7 @@ void run_input_trunc_command(char **para, char *delim)
     }
 }
 
-void run_redirect_error_command(char **para, char *filepath, int is_pipe)
+void run_redirect_error_command(char **para, char *filepath, int is_pipe_front)
 {
     printf("Run Redirect Error Command!\n");
     sh_print_para(para);
@@ -245,7 +294,7 @@ void run_redirect_error_command(char **para, char *filepath, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -266,7 +315,7 @@ void run_redirect_error_command(char **para, char *filepath, int is_pipe)
     }
 }
 
-void run_redirect_error_append_command(char **para, char *filepath, int is_pipe)
+void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_front)
 {
     printf("Run Redirect Error Append Command!\n");
     sh_print_para(para);
@@ -279,7 +328,7 @@ void run_redirect_error_append_command(char **para, char *filepath, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -300,7 +349,7 @@ void run_redirect_error_append_command(char **para, char *filepath, int is_pipe)
     }
 }
 
-void run_redirect_output_error_command(char **para, char *filepath, int is_pipe)
+void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_front)
 {
     printf("Run Redirect Output Error Append Command!\n");
     sh_print_para(para);
@@ -313,7 +362,7 @@ void run_redirect_output_error_command(char **para, char *filepath, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
@@ -336,7 +385,7 @@ void run_redirect_output_error_command(char **para, char *filepath, int is_pipe)
     }
 }
 
-void run_redirect_pipeline_command(char **para, int is_pipe)
+void run_redirect_pipeline_command(char **para, int is_pipe_front)
 {
     printf("Run Redirect Pipeline Command!\n");
     sh_print_para(para);
@@ -349,7 +398,7 @@ void run_redirect_pipeline_command(char **para, int is_pipe)
     }
     else if (pid == 0)
     {
-        if (is_pipe)
+        if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
             int fd = open(path, O_RDWR | O_CREAT, 0644);
