@@ -21,6 +21,11 @@
 #define BLOD "\001\033[1m\002"
 #define BEGIN(x, y) "\001\033[" #x ";" #y "m\002"
 
+#define NONE "\e[0m"
+#define L_CYAN "\e[1;36m"
+#define L_GREEN "\e[1;32m"
+#define BG_WHITE "\e[47m"
+
 void sh_main_loop()
 {
     struct passwd *pwd;
@@ -64,9 +69,9 @@ void sh_main_loop()
         work_dir = sh_get_work_dir();
 
         printf("\n");
-        printf("%s\n", work_dir);
+        printf(L_CYAN "%s\n" NONE, work_dir);
 
-        input = readline(BEGIN(49, 36) BLOD "---> " CLOSE);
+        input = readline(BEGIN(49, 36) BLOD L_GREEN "➞  " CLOSE);
         add_history(input);
         write_history(history_path);
 

@@ -88,9 +88,30 @@ void sh_input_process(char **tokens)
                 }
                 strcpy(filepath, tokens[j + 1]);
                 run_redirect_error_append_command(para, filepath);
+                i = j + 2;
+                flag = 1;
+                break;
+            }
+            else if (!strcmp(tokens[j], "2&>1"))
+            {
+                for (int k = i; k < j; k++)
+                {
+                    strcpy(para[k - i], tokens[k]);
+                }
+                run_redirect_output_error_command(para);
+                i = j + 1;
+                flag = 1;
+                break;
             }
             else if (!strcmp(tokens[j], "|"))
             {
+                for (int k = i; k < j; k++)
+                {
+                    strcpy(para[k - i], tokens[k]);
+                }
+                run_redirect_pipeline_command(para);
+                i = j + 1;
+                flag = 1;
                 break;
             }
             else
