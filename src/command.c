@@ -40,7 +40,7 @@ void run_simple_command(char **para, int is_pipe)
     }
 }
 
-void run_redirect_output_command(char **para, char *filepath)
+void run_redirect_output_command(char **para, char *filepath, int is_pipe)
 {
     printf("Run Redirect Output Command!\n");
     sh_print_para(para);
@@ -52,6 +52,13 @@ void run_redirect_output_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         close(1);
         int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
         dup(fd);
@@ -66,7 +73,7 @@ void run_redirect_output_command(char **para, char *filepath)
     }
 }
 
-void run_redirect_output_append_command(char **para, char *filepath)
+void run_redirect_output_append_command(char **para, char *filepath, int is_pipe)
 {
     printf("Run Redirect Output Append Command!\n");
     sh_print_para(para);
@@ -78,6 +85,13 @@ void run_redirect_output_append_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         close(1);
         int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
         dup(fd);
@@ -218,7 +232,7 @@ void run_input_trunc_command(char **para, char *delim)
     }
 }
 
-void run_redirect_error_command(char **para, char *filepath)
+void run_redirect_error_command(char **para, char *filepath, int is_pipe)
 {
     printf("Run Redirect Error Command!\n");
     sh_print_para(para);
@@ -231,6 +245,13 @@ void run_redirect_error_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
         close(2);
         dup(fd);
@@ -245,7 +266,7 @@ void run_redirect_error_command(char **para, char *filepath)
     }
 }
 
-void run_redirect_error_append_command(char **para, char *filepath)
+void run_redirect_error_append_command(char **para, char *filepath, int is_pipe)
 {
     printf("Run Redirect Error Append Command!\n");
     sh_print_para(para);
@@ -258,6 +279,13 @@ void run_redirect_error_append_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
         close(2);
         dup(fd);
@@ -272,7 +300,7 @@ void run_redirect_error_append_command(char **para, char *filepath)
     }
 }
 
-void run_redirect_output_error_command(char **para, char *filepath)
+void run_redirect_output_error_command(char **para, char *filepath, int is_pipe)
 {
     printf("Run Redirect Output Error Append Command!\n");
     sh_print_para(para);
@@ -285,6 +313,13 @@ void run_redirect_output_error_command(char **para, char *filepath)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
         close(1);
         dup(fd);
@@ -301,7 +336,7 @@ void run_redirect_output_error_command(char **para, char *filepath)
     }
 }
 
-void run_redirect_pipeline_command(char **para)
+void run_redirect_pipeline_command(char **para, int is_pipe)
 {
     printf("Run Redirect Pipeline Command!\n");
     sh_print_para(para);
@@ -314,6 +349,13 @@ void run_redirect_pipeline_command(char **para)
     }
     else if (pid == 0)
     {
+        if (is_pipe)
+        {
+            char *path = sh_get_pipeline_path();
+            int fd = open(path, O_RDWR | O_CREAT, 0644);
+            close(0);
+            dup(fd);
+        }
         struct passwd *pwd;
         pwd = getpwuid(getuid());
         char *path = (char *)calloc(STR_LEN, sizeof(char));

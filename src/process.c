@@ -31,7 +31,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_command(para, filepath);
+                run_redirect_output_command(para, filepath, is_pipe);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -43,7 +43,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_command(para, filepath);
+                run_redirect_error_command(para, filepath, is_pipe);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -55,7 +55,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_append_command(para, filepath);
+                run_redirect_output_append_command(para, filepath, is_pipe);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -91,7 +91,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_append_command(para, filepath);
+                run_redirect_error_append_command(para, filepath, is_pipe);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -103,7 +103,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_error_command(para, filepath);
+                run_redirect_output_error_command(para, filepath, is_pipe);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -114,7 +114,7 @@ void sh_input_process(char **tokens)
                 {
                     strcpy(para[k - i], tokens[k]);
                 }
-                run_redirect_pipeline_command(para);
+                run_redirect_pipeline_command(para, is_pipe);
                 i = j + 1;
                 flag = 1;
                 break;
