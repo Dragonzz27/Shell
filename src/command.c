@@ -196,7 +196,6 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
             FILE *fp = fopen(path, "r+");
             for (int i = 0; fgets(data[i], STR_LEN, fp); i++)
             {
-                printf("[%d]: %s\n", i, data[i]);
             }
         }
         else
@@ -209,9 +208,10 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
         int para_len = 0;
         for (int i = 0; strcmp(para[i], ""); i++)
         {
-            printf("[%d]: %s\n", i, para[i]);
             para_len++;
         }
+
+        sh_print_para(data);
 
         for (int i = 0; strcmp(data[i], ""); i++)
         {
@@ -231,13 +231,23 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
                         break;
                     }
                 }
+
                 if (flag == strlen(delim))
                 {
+                    for (int k = 0; k < strlen(delim); k++)
+                    {
+                        tmp[j + k] = data[i][j + k];
+                        tmp[j + k + 1] = '\0';
+                    }
                     is_delim = 1;
                     break;
                 }
-                tmp[j] = data[i][j];
-                tmp[j + 1] = '\0';
+                else
+                {
+                    tmp[j] = data[i][j];
+                    tmp[j + 1] = '\0';
+                }
+                printf("%s\n", tmp);
             }
             if (is_delim)
             {
