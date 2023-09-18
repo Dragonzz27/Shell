@@ -45,6 +45,7 @@ void sh_builtin_where()
 
 void sh_builtin_history()
 {
+    
 }
 
 void sh_builtin_exit()
