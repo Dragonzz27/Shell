@@ -10,7 +10,7 @@
 #include "types.h"
 #include "utils.h"
 
-void run_simple_command(char **para, int is_pipe_front)
+void run_simple_command(char **para, int is_pipe_front, int is_run_background)
 {
     printf("Run Simple Command!\n");
     sh_print_para(para);
@@ -35,12 +35,15 @@ void run_simple_command(char **para, int is_pipe_front)
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_output_command(char **para, char *filepath, int is_pipe_front)
+void run_redirect_output_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Output Command!\n");
     sh_print_para(para);
@@ -68,12 +71,15 @@ void run_redirect_output_command(char **para, char *filepath, int is_pipe_front)
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_output_append_command(char **para, char *filepath, int is_pipe_front)
+void run_redirect_output_append_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Output Append Command!\n");
     sh_print_para(para);
@@ -101,12 +107,15 @@ void run_redirect_output_append_command(char **para, char *filepath, int is_pipe
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_input_command(char **para, char *filepath, int is_pipe_end)
+void run_redirect_input_command(char **para, char *filepath, int is_pipe_end, int is_run_background)
 {
     printf("Run Redirect Input Command!\n");
     sh_print_para(para);
@@ -166,12 +175,15 @@ void run_redirect_input_command(char **para, char *filepath, int is_pipe_end)
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is_pipe_end)
+void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is_pipe_end, int is_run_background)
 {
     printf("Run Input Trunc Command!\n");
     sh_print_para(para);
@@ -276,12 +288,15 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_error_command(char **para, char *filepath, int is_pipe_front)
+void run_redirect_error_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Error Command!\n");
     sh_print_para(para);
@@ -310,12 +325,15 @@ void run_redirect_error_command(char **para, char *filepath, int is_pipe_front)
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_front)
+void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Error Append Command!\n");
     sh_print_para(para);
@@ -344,12 +362,15 @@ void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_front)
+void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Output Error Append Command!\n");
     sh_print_para(para);
@@ -380,12 +401,15 @@ void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }
 
-void run_redirect_pipeline_command(char **para, int is_pipe_front)
+void run_redirect_pipeline_command(char **para, int is_pipe_front, int is_run_background)
 {
     printf("Run Redirect Pipeline Command!\n");
     sh_print_para(para);
@@ -419,7 +443,10 @@ void run_redirect_pipeline_command(char **para, int is_pipe_front)
     }
     else
     {
-        int status;
-        waitpid(pid, &status, 0);
+        if (!is_run_background)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+        }
     }
 }

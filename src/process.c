@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "command.h"
 
-void sh_input_process(char **tokens)
+void sh_input_process(char **tokens, int is_run_background)
 {
     for (int i = 0; strcmp(tokens[i], "");)
     {
@@ -32,7 +32,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_command(para, filepath, is_pipe_front);
+                run_redirect_output_command(para, filepath, is_pipe_front, is_run_background);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -44,7 +44,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_command(para, filepath, is_pipe_front);
+                run_redirect_error_command(para, filepath, is_pipe_front, is_run_background);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -56,7 +56,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_append_command(para, filepath, is_pipe_front);
+                run_redirect_output_append_command(para, filepath, is_pipe_front, is_run_background);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -77,7 +77,7 @@ void sh_input_process(char **tokens)
                 {
                     i = j + 2;
                 }
-                run_redirect_input_command(para, filepath, is_pipe_end);
+                run_redirect_input_command(para, filepath, is_pipe_end, is_run_background);
                 flag = 1;
                 break;
             }
@@ -97,7 +97,7 @@ void sh_input_process(char **tokens)
                 {
                     i = j + 2;
                 }
-                run_input_trunc_command(para, filepath, is_pipe_front, is_pipe_end);
+                run_input_trunc_command(para, filepath, is_pipe_front, is_pipe_end, is_run_background);
                 flag = 1;
                 break;
             }
@@ -108,7 +108,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_error_append_command(para, filepath, is_pipe_front);
+                run_redirect_error_append_command(para, filepath, is_pipe_front, is_run_background);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -120,7 +120,7 @@ void sh_input_process(char **tokens)
                     strcpy(para[k - i], tokens[k]);
                 }
                 strcpy(filepath, tokens[j + 1]);
-                run_redirect_output_error_command(para, filepath, is_pipe_front);
+                run_redirect_output_error_command(para, filepath, is_pipe_front, is_run_background);
                 i = j + 2;
                 flag = 1;
                 break;
@@ -131,7 +131,7 @@ void sh_input_process(char **tokens)
                 {
                     strcpy(para[k - i], tokens[k]);
                 }
-                run_redirect_pipeline_command(para, is_pipe_front);
+                run_redirect_pipeline_command(para, is_pipe_front, is_run_background);
                 i = j + 1;
                 flag = 1;
                 break;
@@ -148,7 +148,7 @@ void sh_input_process(char **tokens)
                 strcpy(para[k - i], tokens[k]);
                 cnt++;
             }
-            run_simple_command(para, is_pipe_front);
+            run_simple_command(para, is_pipe_front, is_run_background);
             break;
         }
         for (int j = 0; j < STR_LEN; j++)

@@ -75,10 +75,11 @@ void sh_main_loop()
         add_history(input);
         write_history(history_path);
 
-        sh_input_preprocess(input);
+        int is_run_background = sh_input_preprocess(input);
+        printf("Input: %s\n", input);
         sh_split_line(input, tokens);
 
-        sh_input_process(tokens);
+        sh_input_process(tokens, is_run_background);
 
         free(work_dir);
         work_dir = NULL;

@@ -40,18 +40,19 @@ char *sh_read_line()
     return line;
 }
 
-void *sh_input_preprocess(char *input)
+int sh_input_preprocess(char *input)
 {
     char *tmp = (char *)calloc(STR_LEN, sizeof(char));
     int cnt = 0;
     char pre_ch = 0;
     char ch = 0;
+    int is_run_background = 0;
     for (int i = 0; i < strlen(input); i++)
     {
         ch = input[i];
-        if (ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '&')
+        if (ch == '<' || ch == '>' || ch == '|' || ch == '-')
         {
-            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-' || pre_ch == '&')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-')
             {
                 tmp[cnt++] = ch;
             }
@@ -60,6 +61,10 @@ void *sh_input_preprocess(char *input)
                 tmp[cnt++] = ' ';
                 tmp[cnt++] = ch;
             }
+        }
+        else if (ch == '&')
+        {
+            is_run_background = 1;
         }
         else
         {
@@ -79,6 +84,7 @@ void *sh_input_preprocess(char *input)
     strcpy(input, tmp);
     free(tmp);
     tmp = NULL;
+    return is_run_background;
 }
 
 void sh_split_line(char *input, char *tokens[ARR_LEN])
