@@ -40,6 +40,17 @@ void sh_input_process(char **tokens, int is_run_background)
             sh_builtin_help();
             i = i + 1;
         }
+        else if (!strcmp(tokens[i], "history"))
+        {
+            sh_builtin_history();
+            i = i + 1;
+        }
+        else if (!strcmp(tokens[i], "where"))
+        {
+            strcpy(filepath, tokens[i + 1]);
+            sh_builtin_where(filepath);
+            i = i + 2;
+        }
         else
         {
             for (int j = i + 1; strcmp(tokens[j], ""); j++)

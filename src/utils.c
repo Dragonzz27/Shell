@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <pwd.h>
+#include <sys/types.h>
+#include <signal.h>
 
 #include "types.h"
 
@@ -117,4 +119,9 @@ void sh_para_addnull(char **para)
     }
     free(para[cnt]);
     para[cnt] = NULL;
+}
+
+void sh_signal_handler_sigint(int signum)
+{
+    
 }

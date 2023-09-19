@@ -6,14 +6,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <pwd.h>
+#include <signal.h>
 
 #include "types.h"
 #include "utils.h"
 
 void run_simple_command(char **para, int is_pipe_front, int is_run_background)
 {
-    printf("Run Simple Command!\n");
-    sh_print_para(para);
+    // printf("Run Simple Command!\n");
+    // sh_print_para(para);
     int pid = fork();
     if (pid < 0)
     {
@@ -45,8 +46,8 @@ void run_simple_command(char **para, int is_pipe_front, int is_run_background)
 
 void run_redirect_output_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Output Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Output Command!\n");
+    // sh_print_para(para);
     int pid = fork();
     if (pid < 0)
     {
@@ -81,8 +82,8 @@ void run_redirect_output_command(char **para, char *filepath, int is_pipe_front,
 
 void run_redirect_output_append_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Output Append Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Output Append Command!\n");
+    // sh_print_para(para);
     int pid = fork();
     if (pid < 0)
     {
@@ -117,8 +118,8 @@ void run_redirect_output_append_command(char **para, char *filepath, int is_pipe
 
 void run_redirect_input_command(char **para, char *filepath, int is_pipe_end, int is_run_background)
 {
-    printf("Run Redirect Input Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Input Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)
@@ -185,8 +186,8 @@ void run_redirect_input_command(char **para, char *filepath, int is_pipe_end, in
 
 void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is_pipe_end, int is_run_background)
 {
-    printf("Run Input Trunc Command!\n");
-    sh_print_para(para);
+    // printf("Run Input Trunc Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)
@@ -223,7 +224,7 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
             para_len++;
         }
 
-        sh_print_para(data);
+        // sh_print_para(data);
 
         for (int i = 0; strcmp(data[i], ""); i++)
         {
@@ -272,7 +273,7 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
             }
         }
 
-        sh_print_para(para);
+        // sh_print_para(para);
 
         if (is_pipe_end)
         {
@@ -298,8 +299,8 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
 
 void run_redirect_error_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Error Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Error Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)
@@ -335,8 +336,8 @@ void run_redirect_error_command(char **para, char *filepath, int is_pipe_front, 
 
 void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Error Append Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Error Append Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)
@@ -372,8 +373,8 @@ void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_
 
 void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Output Error Append Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Output Error Append Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)
@@ -411,8 +412,8 @@ void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_
 
 void run_redirect_pipeline_command(char **para, int is_pipe_front, int is_run_background)
 {
-    printf("Run Redirect Pipeline Command!\n");
-    sh_print_para(para);
+    // printf("Run Redirect Pipeline Command!\n");
+    // sh_print_para(para);
 
     int pid = fork();
     if (pid < 0)

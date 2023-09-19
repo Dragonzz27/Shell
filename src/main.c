@@ -16,6 +16,7 @@
 #include "builtin.h"
 #include "command.h"
 #include "process.h"
+#include "signal.h"
 
 #define CLOSE "\001\033[0m\002"
 #define BLOD "\001\033[1m\002"
@@ -76,7 +77,6 @@ void sh_main_loop()
         write_history(history_path);
 
         int is_run_background = sh_input_preprocess(input);
-        printf("Input: %s\n", input);
         sh_split_line(input, tokens);
 
         sh_input_process(tokens, is_run_background);

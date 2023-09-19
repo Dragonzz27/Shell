@@ -17,3 +17,5 @@ void sh_split_line(char *input_content, char *tokens[ARR_LEN]);
 void sh_data_preprocess(char **data);
 
 void sh_para_addnull(char **para);
+
+void sh_signal_handler_sigint(int signum);
