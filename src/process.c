@@ -23,6 +23,8 @@ void sh_input_process(char **tokens, int is_run_background)
             para[j] = (char *)calloc(STR_LEN, sizeof(char));
         }
         char *filepath = (char *)calloc(STR_LEN, sizeof(char));
+        char *var1 = (char *)calloc(STR_LEN, sizeof(char));
+        char *var2 = (char *)calloc(STR_LEN, sizeof(char));
         int flag = 0;
         if (!strcmp(tokens[i], "cd"))
         {
@@ -50,6 +52,20 @@ void sh_input_process(char **tokens, int is_run_background)
             strcpy(filepath, tokens[i + 1]);
             sh_builtin_where(filepath);
             i = i + 2;
+        }
+        else if (!strcmp(tokens[i], "export"))
+        {
+            strcpy(var1, tokens[i + 1]);
+            strcpy(var2, tokens[i + 3]);
+            if (!strcmp(tokens[i + 2], "="))
+            {
+                sh_builtin_export(var1, var2);
+            }
+            else
+            {
+                sh_builtin_export_append(var1, var2);
+            }
+            i = i + 4;
         }
         else
         {
@@ -189,5 +205,9 @@ void sh_input_process(char **tokens, int is_run_background)
         }
         free(filepath);
         filepath = NULL;
+        free(var1);
+        var1 = NULL;
+        free(var2);
+        var2 = NULL;
     }
 }

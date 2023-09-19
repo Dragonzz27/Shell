@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+void sh_print_string(char *string);
+
 void sh_print_para(char **args);
 
 char *sh_get_work_dir(void);
@@ -19,3 +21,5 @@ void sh_data_preprocess(char **data);
 void sh_para_addnull(char **para);
 
 void sh_signal_handler_sigint(int signum);
+
+void sh_env_init(char *filepath);

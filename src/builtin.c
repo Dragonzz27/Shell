@@ -37,8 +37,23 @@ void sh_builtin_cd(char *path)
     }
 }
 
-void sh_builtin_alias()
+void sh_builtin_export(char *src, char *dst)
 {
+    if (setenv(src, dst, 1))
+    {
+        perror("sh_builtin_export error!\n");
+    }
+}
+
+void sh_builtin_export_append(char *src, char *dst)
+{
+    char *var = getenv(src);
+    strcat(var, ":");
+    strcat(var, dst);
+    if (setenv(src, var, 1))
+    {
+        perror("sh_builtin_export_append error!\n");
+    }
 }
 
 void sh_builtin_where(char *filename)

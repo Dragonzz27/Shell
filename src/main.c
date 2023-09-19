@@ -57,6 +57,8 @@ void sh_main_loop()
 
     read_history(history_path);
 
+    sh_env_init(environment_path);
+
     while (1)
     {
         char *work_dir;

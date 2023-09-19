@@ -7,6 +7,12 @@
 #include <signal.h>
 
 #include "types.h"
+#include "builtin.h"
+
+void sh_print_string(char *string)
+{
+    printf("%s\n", string);
+}
 
 void sh_print_para(char **tokens)
 {
@@ -52,9 +58,9 @@ int sh_input_preprocess(char *input)
     for (int i = 0; i < strlen(input); i++)
     {
         ch = input[i];
-        if (ch == '<' || ch == '>' || ch == '|' || ch == '-')
+        if (ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '=')
         {
-            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-' || pre_ch == '=' || pre_ch == '+')
             {
                 tmp[cnt++] = ch;
             }
@@ -70,7 +76,7 @@ int sh_input_preprocess(char *input)
         }
         else
         {
-            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '&')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '&' || pre_ch == '=')
             {
                 tmp[cnt++] = ' ';
                 tmp[cnt++] = ch;
@@ -121,8 +127,6 @@ void sh_para_addnull(char **para)
     para[cnt] = NULL;
 }
 
-// 有点小问题，父进程通过CTRL+C发送SIGKILL信号终止子进程而不是终止自己；
-// 但是子进程正常关闭后,输入流出现错误
 void sh_signal_handler_sigint(int signum)
 {
     if (GLOBAL_CHILD_PID)
@@ -134,6 +138,43 @@ void sh_signal_handler_sigint(int signum)
 
 void sh_env_init(char *filepath)
 {
-    FILE *fp = fopen(filepath, "r+");
+    FILE *fp = fopen(filepath, "rw+");
     char *str = (char *)calloc(STR_LEN, sizeof(char));
+    for (int i = 0; fgets(str, STR_LEN, fp) != NULL; i++)
+    {
+        char *tokens[ARR_LEN];
+        for (int j = 0; j < ARR_LEN; j++)
+        {
+            tokens[j] = (char *)calloc(STR_LEN, sizeof(char));
+        }
+        sh_split_line(str, tokens);
+        for (int j = 0; strcmp(tokens[j], ""); j++)
+        {
+            if (!strcmp(tokens[j], "export"))
+            {
+                if (!strcmp(tokens[j + 2], "="))
+                {
+                    sh_builtin_export(tokens[j + 1], tokens[j + 3]);
+                    j = j + 4;
+                }
+                else
+                {
+                    sh_builtin_export_append(tokens[j + 1], tokens[j + 3]);
+                    j = j + 4;
+                }
+            }
+            else
+            {
+            }
+        }
+        for (int j = 0; j < ARR_LEN; j++)
+        {
+            free(tokens[j]);
+            tokens[j] = NULL;
+        }
+    }
+    free(str);
+    str = NULL;
+    fclose(fp);
+    fp = NULL;
 }
