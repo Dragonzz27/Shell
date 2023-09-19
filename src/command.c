@@ -23,6 +23,7 @@ void run_simple_command(char **para, int is_pipe_front, int is_run_background)
     }
     else if (pid == 0)
     {
+        signal(SIGINT, SIG_DFL);
         if (is_pipe_front)
         {
             char *path = sh_get_pipeline_path();
@@ -36,6 +37,7 @@ void run_simple_command(char **para, int is_pipe_front, int is_run_background)
     }
     else
     {
+        GLOBAL_CHILD_PID = pid;
         if (!is_run_background)
         {
             int status;

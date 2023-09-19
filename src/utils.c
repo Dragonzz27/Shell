@@ -125,7 +125,11 @@ void sh_para_addnull(char **para)
 // 但是子进程正常关闭后,输入流出现错误
 void sh_signal_handler_sigint(int signum)
 {
-    exit(EXIT_FAILURE);
+    if (GLOBAL_CHILD_PID)
+    {
+        kill(GLOBAL_CHILD_PID, SIGKILL);
+        GLOBAL_CHILD_PID = 0;
+    }
 }
 
 void sh_env_init(char *filepath)

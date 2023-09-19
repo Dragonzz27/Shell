@@ -29,6 +29,7 @@
 
 void sh_main_loop()
 {
+    signal(SIGINT, sh_signal_handler_sigint);
     struct passwd *pwd;
     pwd = getpwuid(getuid());
 
