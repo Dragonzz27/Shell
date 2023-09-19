@@ -13,8 +13,8 @@
 
 void run_simple_command(char **para, int is_pipe_front, int is_run_background)
 {
-    // printf("Run Simple Command!\n");
-    // sh_print_para(para);
+    printf("Run Simple Command!\n");
+    sh_print_para(para);
     int pid = fork();
     if (pid < 0)
     {

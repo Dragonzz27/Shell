@@ -121,7 +121,15 @@ void sh_para_addnull(char **para)
     para[cnt] = NULL;
 }
 
+// 有点小问题，父进程通过CTRL+C发送SIGKILL信号终止子进程而不是终止自己；
+// 但是子进程正常关闭后,输入流出现错误
 void sh_signal_handler_sigint(int signum)
 {
-    
+    exit(EXIT_FAILURE);
+}
+
+void sh_env_init(char *filepath)
+{
+    FILE *fp = fopen(filepath, "r+");
+    char *str = (char *)calloc(STR_LEN, sizeof(char));
 }

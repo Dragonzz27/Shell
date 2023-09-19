@@ -77,6 +77,7 @@ void sh_main_loop()
         write_history(history_path);
 
         int is_run_background = sh_input_preprocess(input);
+
         sh_split_line(input, tokens);
 
         sh_input_process(tokens, is_run_background);
