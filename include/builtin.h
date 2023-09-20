@@ -10,6 +10,8 @@ void sh_builtin_history(void);
 
 void sh_builtin_where(char *filename);
 
+void sh_builtin_which(char *filename);
+
 void sh_builtin_export(char *src, char *dst);
 
 void sh_builtin_export_append(char *src, char *dst);

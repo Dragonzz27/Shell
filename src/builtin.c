@@ -6,6 +6,7 @@
 #include <dirent.h>
 
 #include "types.h"
+#include "utils.h"
 
 void sh_builtin_help()
 {
@@ -58,41 +59,93 @@ void sh_builtin_export_append(char *src, char *dst)
 
 void sh_builtin_where(char *filename)
 {
+    char *paths[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        paths[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+    char *var_path = (char *)calloc(PATH_LEN, sizeof(char));
+
+    char *path = getenv("PATH");
+    strcpy(var_path, path);
+    sh_path_split(var_path, paths);
+
     struct dirent *entry;
-    DIR *dir = opendir("/bin");
-    while ((entry = readdir(dir)) != NULL)
+    DIR *dir;
+    for (int i = 0; strcmp(paths[i], ""); i++)
     {
-        if (!strcmp(entry->d_name, filename))
+        dir = opendir(paths[i]);
+        if (dir == NULL)
         {
-            printf("/bin/%s\n", entry->d_name);
+            continue;
         }
+        while ((entry = readdir(dir)) != NULL)
+        {
+            if (!strcmp(entry->d_name, filename))
+            {
+                printf("%s/%s\n", paths[i], entry->d_name);
+            }
+        }
+        closedir(dir);
+        dir = NULL;
     }
-    closedir(dir);
-    dir = NULL;
-    dir = opendir("/usr/bin");
-    while ((entry = readdir(dir)) != NULL)
+
+    free(var_path);
+    var_path = NULL;
+    for (int i = 0; i < ARR_LEN; i++)
     {
-        if (!strcmp(entry->d_name, filename))
-        {
-            printf("/usr/bin/%s\n", entry->d_name);
-        }
+        free(paths[i]);
+        paths[i] = NULL;
     }
-    closedir(dir);
-    dir = NULL;
-    dir = opendir("./");
-    while ((entry = readdir(dir)) != NULL)
-    {
-        if (!strcmp(entry->d_name, filename))
-        {
-            printf("./%s\n", entry->d_name);
-        }
-    }
-    closedir(dir);
-    dir = NULL;
 }
 
-void sh_builtin_which()
+void sh_builtin_which(char *filename)
 {
+    char *paths[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        paths[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+    char *var_path = (char *)calloc(PATH_LEN, sizeof(char));
+
+    char *path = getenv("PATH");
+    strcpy(var_path, path);
+    sh_path_split(var_path, paths);
+
+    struct dirent *entry;
+    DIR *dir;
+    for (int i = 0; strcmp(paths[i], ""); i++)
+    {
+        int flag = 0;
+        dir = opendir(paths[i]);
+        if (dir == NULL)
+        {
+            continue;
+        }
+        while ((entry = readdir(dir)) != NULL)
+        {
+            if (!strcmp(entry->d_name, filename))
+            {
+                printf("%s/%s\n", paths[i], entry->d_name);
+                flag = 1;
+                break;
+            }
+        }
+        closedir(dir);
+        dir = NULL;
+        if (flag)
+        {
+            break;
+        }
+    }
+
+    free(var_path);
+    var_path = NULL;
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        free(paths[i]);
+        paths[i] = NULL;
+    }
 }
 
 void sh_builtin_history()

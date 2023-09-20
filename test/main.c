@@ -7,13 +7,8 @@
 
 int main()
 {
-    struct passwd *pwd;
-    pwd = getpwuid(getuid());
-
-    printf("%s\n", pwd->pw_dir);
-
-    free(pwd);
-    pwd = NULL;
+    char *path = getenv("PATH");
+    printf("%s\n", path);
 
     return 0;
 }

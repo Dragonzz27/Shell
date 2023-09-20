@@ -53,6 +53,12 @@ void sh_input_process(char **tokens, int is_run_background)
             sh_builtin_where(filepath);
             i = i + 2;
         }
+        else if (!strcmp(tokens[i], "which"))
+        {
+            strcpy(filepath, tokens[i + 1]);
+            sh_builtin_which(filepath);
+            i = i + 2;
+        }
         else if (!strcmp(tokens[i], "export"))
         {
             strcpy(var1, tokens[i + 1]);

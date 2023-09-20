@@ -186,3 +186,14 @@ void sh_env_init(char *filepath)
     fclose(fp);
     fp = NULL;
 }
+
+void sh_path_split(char *path, char *paths[ARR_LEN])
+{
+    int cnt = 0;
+    char *var = strtok(path, ":");
+    while (var != NULL)
+    {
+        strcpy(paths[cnt++], var);
+        var = strtok(NULL, ":");
+    }
+}

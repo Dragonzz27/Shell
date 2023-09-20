@@ -16,3 +16,118 @@ lsls
 ls
 ei
 exi
+ls
+ls -a
+ls -l
+pwd
+clera
+clear
+ls > a
+cat a
+ls >> a
+cat a
+ls | grep CM
+echo < a | grep CM
+ls
+echo ls
+exit
+ls
+ls -a
+ls -l
+echo -a > a
+cat a
+ls < a
+ls | grep CM
+ls | echo << ake
+./shell 
+ls
+ls
+exit
+time
+ls
+exit
+ls
+where ls
+ls
+where ls
+where ls
+ls
+where ls
+where ls
+exit
+where ls
+where ls
+where ls
+where ls
+ls
+where ls
+where ls
+where ls
+ls
+where ls
+ls
+where ls
+ls
+where ls
+ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+export PATH += /home/dragonzz/Codes
+export PATH += /home/dragonzz
+exit
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+ls
+where ls
+where ls
+where ls
+which ls

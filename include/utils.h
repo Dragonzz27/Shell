@@ -23,3 +23,5 @@ void sh_para_addnull(char **para);
 void sh_signal_handler_sigint(int signum);
 
 void sh_env_init(char *filepath);
+
+void sh_path_split(char *path, char *paths[ARR_LEN]);
