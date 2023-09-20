@@ -36,8 +36,16 @@ char *sh_get_pipeline_path(void)
     struct passwd *pwd;
     pwd = getpwuid(getuid());
     char *pipeline_path = (char *)calloc(STR_LEN, sizeof(char));
-    strcpy(pipeline_path, pwd->pw_dir);
-    strcat(pipeline_path, "/.fish/pipeline");
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcat(pipeline_path, "../config");
+        strcat(pipeline_path, "/pipeline");
+    }
+    else
+    {
+        strcpy(pipeline_path, pwd->pw_dir);
+        strcat(pipeline_path, "/.mysh/pipeline");
+    }
     return pipeline_path;
 }
 

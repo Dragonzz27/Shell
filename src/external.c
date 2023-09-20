@@ -435,8 +435,14 @@ void run_redirect_pipeline_command(char **para, int is_pipe_front, int is_run_ba
         struct passwd *pwd;
         pwd = getpwuid(getuid());
         char *path = (char *)calloc(STR_LEN, sizeof(char));
-        strcpy(path, pwd->pw_dir);
-        strcat(path, "/.fish/pipeline");
+        if (CONFIG_FILE_IN_CURRENT_DIR) {
+            strcpy(path, "../config");
+            strcat(path, "/pipeline");
+        }
+        else {
+            strcpy(path, pwd->pw_dir);
+            strcat(path, "/.mysh/pipeline");
+        }
         int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
         close(1);
         dup(fd);

@@ -35,26 +35,35 @@ void sh_main_loop()
 
     char *config_path = (char *)calloc(STR_LEN, sizeof(char));
     char *history_path = (char *)calloc(STR_LEN, sizeof(char));
-    char *environment_path = (char *)calloc(STR_LEN, sizeof(char));
-    char *tmp_data_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *shellrc_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *pipeline_path = (char *)calloc(STR_LEN, sizeof(char));
 
     if (CONFIG_FILE_IN_CURRENT_DIR)
     {
-        strcpy(config_path, "")
+        strcpy(config_path, "../config");
+
+        strcpy(history_path, "../config");
+        strcat(history_path, "/history");
+
+        strcpy(shellrc_path, "../config");
+        strcat(shellrc_path, "/shellrc");
+
+        strcpy(pipeline_path, "../config");
+        strcat(pipeline_path, "/pipeline");
     }
     else
     {
         strcpy(config_path, pwd->pw_dir);
-        strcat(config_path, "/.fish");
+        strcat(config_path, "/.mysh");
 
         strcpy(history_path, pwd->pw_dir);
-        strcat(history_path, "/.fish/command_history.txt");
+        strcat(history_path, "/.mysh/history");
 
-        strcpy(environment_path, pwd->pw_dir);
-        strcat(environment_path, "/.fish/environment.txt");
+        strcpy(shellrc_path, pwd->pw_dir);
+        strcat(shellrc_path, "/.mysh/shellrc");
 
-        strcpy(tmp_data_path, pwd->pw_dir);
-        strcat(tmp_data_path, "/.fish/tmp_data.txt");
+        strcpy(pipeline_path, pwd->pw_dir);
+        strcat(pipeline_path, "/.mysh/pipeline");
     }
 
     if (access(config_path, F_OK))
@@ -62,9 +71,24 @@ void sh_main_loop()
         mkdir(config_path, 0774);
     }
 
+    if (access(history_path, F_OK))
+    {
+        creat(history_path, 0774);
+    }
+
+    if (access(shellrc_path, F_OK))
+    {
+        creat(shellrc_path, 0774);
+    }
+
+    if (access(pipeline_path, F_OK))
+    {
+        creat(pipeline_path, 0774);
+    }
+
     read_history(history_path);
 
-    sh_env_init(environment_path);
+    sh_env_init(shellrc_path);
 
     while (1)
     {
@@ -102,16 +126,14 @@ void sh_main_loop()
             tokens[i] = NULL;
         }
     }
-    free(tmp_data_path);
-    tmp_data_path = NULL;
-    free(environment_path);
-    environment_path = NULL;
+    free(pipeline_path);
+    pipeline_path = NULL;
+    free(shellrc_path);
+    shellrc_path = NULL;
     free(history_path);
     history_path = NULL;
     free(config_path);
     config_path = NULL;
-    free(pwd);
-    pwd = NULL;
 }
 
 int main(int argc, char **argv)

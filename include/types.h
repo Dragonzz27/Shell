@@ -8,4 +8,4 @@ extern int HIS_LEN;
 
 extern int GLOBAL_CHILD_PID;
 
-extern int CONFIG_FILE_IN_CURRENT_DIR = 1;
+extern int CONFIG_FILE_IN_CURRENT_DIR;

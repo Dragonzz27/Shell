@@ -91,13 +91,25 @@ void sh_builtin_where(char *filename)
     dir = NULL;
 }
 
+void sh_builtin_which()
+{
+}
+
 void sh_builtin_history()
 {
     struct passwd *pwd;
     pwd = getpwuid(getuid());
     char *history_path = (char *)calloc(STR_LEN, sizeof(char));
-    strcpy(history_path, pwd->pw_dir);
-    strcat(history_path, "/.fish/command_history.txt");
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(history_path, "../config");
+        strcat(history_path, "/history");
+    }
+    else
+    {
+        strcpy(history_path, pwd->pw_dir);
+        strcat(history_path, "/.mysh/history");
+    }
 
     FILE *fp = fopen(history_path, "r+");
 
