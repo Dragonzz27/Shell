@@ -9,9 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/dragonzz/Shell/src/builtin.c" "CMakeFiles/shell.dir/src/builtin.c.o" "gcc" "CMakeFiles/shell.dir/src/builtin.c.o.d"
-  "/home/dragonzz/Shell/src/command.c" "CMakeFiles/shell.dir/src/command.c.o" "gcc" "CMakeFiles/shell.dir/src/command.c.o.d"
+  "/home/dragonzz/Shell/src/external.c" "CMakeFiles/shell.dir/src/external.c.o" "gcc" "CMakeFiles/shell.dir/src/external.c.o.d"
   "/home/dragonzz/Shell/src/main.c" "CMakeFiles/shell.dir/src/main.c.o" "gcc" "CMakeFiles/shell.dir/src/main.c.o.d"
-  "/home/dragonzz/Shell/src/process.c" "CMakeFiles/shell.dir/src/process.c.o" "gcc" "CMakeFiles/shell.dir/src/process.c.o.d"
+  "/home/dragonzz/Shell/src/parser.c" "CMakeFiles/shell.dir/src/parser.c.o" "gcc" "CMakeFiles/shell.dir/src/parser.c.o.d"
   "/home/dragonzz/Shell/src/types.c" "CMakeFiles/shell.dir/src/types.c.o" "gcc" "CMakeFiles/shell.dir/src/types.c.o.d"
   "/home/dragonzz/Shell/src/utils.c" "CMakeFiles/shell.dir/src/utils.c.o" "gcc" "CMakeFiles/shell.dir/src/utils.c.o.d"
   )

@@ -4,7 +4,7 @@
 
 #include "types.h"
 #include "utils.h"
-#include "command.h"
+#include "external.h"
 #include "builtin.h"
 
 void sh_input_process(char **tokens, int is_run_background)

@@ -83,19 +83,19 @@ CMakeFiles/shell.dir/src/builtin.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/builtin.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/builtin.c -o CMakeFiles/shell.dir/src/builtin.c.s
 
-CMakeFiles/shell.dir/src/command.c.o: CMakeFiles/shell.dir/flags.make
-CMakeFiles/shell.dir/src/command.c.o: /home/dragonzz/Shell/src/command.c
-CMakeFiles/shell.dir/src/command.c.o: CMakeFiles/shell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/shell.dir/src/command.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/shell.dir/src/command.c.o -MF CMakeFiles/shell.dir/src/command.c.o.d -o CMakeFiles/shell.dir/src/command.c.o -c /home/dragonzz/Shell/src/command.c
+CMakeFiles/shell.dir/src/external.c.o: CMakeFiles/shell.dir/flags.make
+CMakeFiles/shell.dir/src/external.c.o: /home/dragonzz/Shell/src/external.c
+CMakeFiles/shell.dir/src/external.c.o: CMakeFiles/shell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/shell.dir/src/external.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/shell.dir/src/external.c.o -MF CMakeFiles/shell.dir/src/external.c.o.d -o CMakeFiles/shell.dir/src/external.c.o -c /home/dragonzz/Shell/src/external.c
 
-CMakeFiles/shell.dir/src/command.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/shell.dir/src/command.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/dragonzz/Shell/src/command.c > CMakeFiles/shell.dir/src/command.c.i
+CMakeFiles/shell.dir/src/external.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/shell.dir/src/external.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/dragonzz/Shell/src/external.c > CMakeFiles/shell.dir/src/external.c.i
 
-CMakeFiles/shell.dir/src/command.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/command.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/command.c -o CMakeFiles/shell.dir/src/command.c.s
+CMakeFiles/shell.dir/src/external.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/external.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/external.c -o CMakeFiles/shell.dir/src/external.c.s
 
 CMakeFiles/shell.dir/src/main.c.o: CMakeFiles/shell.dir/flags.make
 CMakeFiles/shell.dir/src/main.c.o: /home/dragonzz/Shell/src/main.c
@@ -111,19 +111,19 @@ CMakeFiles/shell.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/main.c -o CMakeFiles/shell.dir/src/main.c.s
 
-CMakeFiles/shell.dir/src/process.c.o: CMakeFiles/shell.dir/flags.make
-CMakeFiles/shell.dir/src/process.c.o: /home/dragonzz/Shell/src/process.c
-CMakeFiles/shell.dir/src/process.c.o: CMakeFiles/shell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/shell.dir/src/process.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/shell.dir/src/process.c.o -MF CMakeFiles/shell.dir/src/process.c.o.d -o CMakeFiles/shell.dir/src/process.c.o -c /home/dragonzz/Shell/src/process.c
+CMakeFiles/shell.dir/src/parser.c.o: CMakeFiles/shell.dir/flags.make
+CMakeFiles/shell.dir/src/parser.c.o: /home/dragonzz/Shell/src/parser.c
+CMakeFiles/shell.dir/src/parser.c.o: CMakeFiles/shell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dragonzz/Shell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/shell.dir/src/parser.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/shell.dir/src/parser.c.o -MF CMakeFiles/shell.dir/src/parser.c.o.d -o CMakeFiles/shell.dir/src/parser.c.o -c /home/dragonzz/Shell/src/parser.c
 
-CMakeFiles/shell.dir/src/process.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/shell.dir/src/process.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/dragonzz/Shell/src/process.c > CMakeFiles/shell.dir/src/process.c.i
+CMakeFiles/shell.dir/src/parser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/shell.dir/src/parser.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/dragonzz/Shell/src/parser.c > CMakeFiles/shell.dir/src/parser.c.i
 
-CMakeFiles/shell.dir/src/process.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/process.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/process.c -o CMakeFiles/shell.dir/src/process.c.s
+CMakeFiles/shell.dir/src/parser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/shell.dir/src/parser.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/dragonzz/Shell/src/parser.c -o CMakeFiles/shell.dir/src/parser.c.s
 
 CMakeFiles/shell.dir/src/types.c.o: CMakeFiles/shell.dir/flags.make
 CMakeFiles/shell.dir/src/types.c.o: /home/dragonzz/Shell/src/types.c
@@ -156,9 +156,9 @@ CMakeFiles/shell.dir/src/utils.c.s: cmake_force
 # Object files for target shell
 shell_OBJECTS = \
 "CMakeFiles/shell.dir/src/builtin.c.o" \
-"CMakeFiles/shell.dir/src/command.c.o" \
+"CMakeFiles/shell.dir/src/external.c.o" \
 "CMakeFiles/shell.dir/src/main.c.o" \
-"CMakeFiles/shell.dir/src/process.c.o" \
+"CMakeFiles/shell.dir/src/parser.c.o" \
 "CMakeFiles/shell.dir/src/types.c.o" \
 "CMakeFiles/shell.dir/src/utils.c.o"
 
@@ -166,9 +166,9 @@ shell_OBJECTS = \
 shell_EXTERNAL_OBJECTS =
 
 shell: CMakeFiles/shell.dir/src/builtin.c.o
-shell: CMakeFiles/shell.dir/src/command.c.o
+shell: CMakeFiles/shell.dir/src/external.c.o
 shell: CMakeFiles/shell.dir/src/main.c.o
-shell: CMakeFiles/shell.dir/src/process.c.o
+shell: CMakeFiles/shell.dir/src/parser.c.o
 shell: CMakeFiles/shell.dir/src/types.c.o
 shell: CMakeFiles/shell.dir/src/utils.c.o
 shell: CMakeFiles/shell.dir/build.make

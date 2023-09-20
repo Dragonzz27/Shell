@@ -153,29 +153,29 @@ src/builtin.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/builtin.c.s
 .PHONY : src/builtin.c.s
 
-src/command.o: src/command.c.o
-.PHONY : src/command.o
+src/external.o: src/external.c.o
+.PHONY : src/external.o
 
 # target to build an object file
-src/command.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/command.c.o
-.PHONY : src/command.c.o
+src/external.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/external.c.o
+.PHONY : src/external.c.o
 
-src/command.i: src/command.c.i
-.PHONY : src/command.i
+src/external.i: src/external.c.i
+.PHONY : src/external.i
 
 # target to preprocess a source file
-src/command.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/command.c.i
-.PHONY : src/command.c.i
+src/external.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/external.c.i
+.PHONY : src/external.c.i
 
-src/command.s: src/command.c.s
-.PHONY : src/command.s
+src/external.s: src/external.c.s
+.PHONY : src/external.s
 
 # target to generate assembly for a file
-src/command.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/command.c.s
-.PHONY : src/command.c.s
+src/external.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/external.c.s
+.PHONY : src/external.c.s
 
 src/main.o: src/main.c.o
 .PHONY : src/main.o
@@ -201,29 +201,29 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/process.o: src/process.c.o
-.PHONY : src/process.o
+src/parser.o: src/parser.c.o
+.PHONY : src/parser.o
 
 # target to build an object file
-src/process.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.o
-.PHONY : src/process.c.o
+src/parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/parser.c.o
+.PHONY : src/parser.c.o
 
-src/process.i: src/process.c.i
-.PHONY : src/process.i
+src/parser.i: src/parser.c.i
+.PHONY : src/parser.i
 
 # target to preprocess a source file
-src/process.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.i
-.PHONY : src/process.c.i
+src/parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/parser.c.i
+.PHONY : src/parser.c.i
 
-src/process.s: src/process.c.s
-.PHONY : src/process.s
+src/parser.s: src/parser.c.s
+.PHONY : src/parser.s
 
 # target to generate assembly for a file
-src/process.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/process.c.s
-.PHONY : src/process.c.s
+src/parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell.dir/build.make CMakeFiles/shell.dir/src/parser.c.s
+.PHONY : src/parser.c.s
 
 src/types.o: src/types.c.o
 .PHONY : src/types.o
@@ -285,15 +285,15 @@ help:
 	@echo "... src/builtin.o"
 	@echo "... src/builtin.i"
 	@echo "... src/builtin.s"
-	@echo "... src/command.o"
-	@echo "... src/command.i"
-	@echo "... src/command.s"
+	@echo "... src/external.o"
+	@echo "... src/external.i"
+	@echo "... src/external.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/process.o"
-	@echo "... src/process.i"
-	@echo "... src/process.s"
+	@echo "... src/parser.o"
+	@echo "... src/parser.i"
+	@echo "... src/parser.s"
 	@echo "... src/types.o"
 	@echo "... src/types.i"
 	@echo "... src/types.s"

@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <pwd.h>
+#include <signal.h>
 
 #include "readline/history.h"
 #include "readline/readline.h"
@@ -14,9 +15,8 @@
 #include "utils.h"
 #include "types.h"
 #include "builtin.h"
-#include "command.h"
-#include "process.h"
-#include "signal.h"
+#include "external.h"
+#include "parser.h"
 
 #define CLOSE "\001\033[0m\002"
 #define BLOD "\001\033[1m\002"
@@ -38,17 +38,24 @@ void sh_main_loop()
     char *environment_path = (char *)calloc(STR_LEN, sizeof(char));
     char *tmp_data_path = (char *)calloc(STR_LEN, sizeof(char));
 
-    strcat(config_path, pwd->pw_dir);
-    strcat(config_path, "/.fish");
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(config_path, "")
+    }
+    else
+    {
+        strcpy(config_path, pwd->pw_dir);
+        strcat(config_path, "/.fish");
 
-    strcat(history_path, pwd->pw_dir);
-    strcat(history_path, "/.fish/command_history.txt");
+        strcpy(history_path, pwd->pw_dir);
+        strcat(history_path, "/.fish/command_history.txt");
 
-    strcpy(environment_path, pwd->pw_dir);
-    strcat(environment_path, "/.fish/environment.txt");
+        strcpy(environment_path, pwd->pw_dir);
+        strcat(environment_path, "/.fish/environment.txt");
 
-    strcpy(tmp_data_path, pwd->pw_dir);
-    strcat(tmp_data_path, "/.fish/tmp_data.txt");
+        strcpy(tmp_data_path, pwd->pw_dir);
+        strcat(tmp_data_path, "/.fish/tmp_data.txt");
+    }
 
     if (access(config_path, F_OK))
     {
