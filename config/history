@@ -131,3 +131,44 @@ where ls
 where ls
 where ls
 which ls
+ls
+echo $PATH
+ls
+where ls
+where ls
+ls
+which ls
+echo $PATH
+ls
+echo $PATH
+ls
+ls
+echo $PATH
+echo $PATH
+ls
+echo $PATH
+echo $PATH
+echo $PATH
+echo $PATH
+ls
+ls -a
+ls -l
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+where ls
+ls
+where ls
+where ls
+ls
+where ls
+echo $PATH
+ls
+exit
+ls | grep CM
+ls
+exit

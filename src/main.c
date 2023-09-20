@@ -114,6 +114,8 @@ void sh_main_loop()
 
         sh_split_line(input, tokens);
 
+        sh_tokens_evaluate(tokens);
+
         sh_input_process(tokens, is_run_background);
 
         free(work_dir);

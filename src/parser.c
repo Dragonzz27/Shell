@@ -204,7 +204,7 @@ void sh_input_process(char **tokens, int is_run_background)
                 break;
             }
         }
-        for (int j = 0; j < STR_LEN; j++)
+        for (int j = 0; j < ARR_LEN; j++)
         {
             free(para[j]);
             para[j] = NULL;

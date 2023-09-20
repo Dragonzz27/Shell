@@ -197,3 +197,29 @@ void sh_path_split(char *path, char *paths[ARR_LEN])
         var = strtok(NULL, ":");
     }
 }
+
+char *sh_env_evaluate(char *token)
+{
+    char *tmp = (char *)calloc(STR_LEN, sizeof(char));
+    strcpy(tmp, token + 1);
+    const char *value = getenv(tmp);
+    char *var_value = (char *)calloc(PATH_LEN, sizeof(char));
+    strcpy(var_value, value);
+    free(tmp);
+    return var_value;
+}
+
+void sh_tokens_evaluate(char *tokens[ARR_LEN])
+{
+    for (int i = 0; strcmp(tokens[i], ""); i++)
+    {
+        if (tokens[i][0] == '$')
+        {
+            char *tmp = sh_env_evaluate(tokens[i]);
+            free(tokens[i]);
+            tokens[i] = (char *)calloc(PATH_LEN, sizeof(char));
+            strcpy(tokens[i], tmp);
+            free(tmp);
+        }
+    }
+}
