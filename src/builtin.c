@@ -245,26 +245,27 @@ void sh_builtin_alias_add(char *var1, char *var2)
     if (CONFIG_FILE_IN_CURRENT_DIR)
     {
         strcpy(temporary_path, "../config");
-        strcat(temporary_path, "/pipeline");
+        strcat(temporary_path, "/temporary");
     }
     else
     {
         strcpy(temporary_path, pwd->pw_dir);
-        strcat(temporary_path, "/.mysh/pipeline");
+        strcat(temporary_path, "/.mysh/temporary");
     }
 
-    FILE *alias = fopen(alias_path, "rw+");
+    FILE *alias = fopen(alias_path, "r+");
     if (access(temporary_path, F_OK))
     {
         remove(temporary_path);
     }
-    FILE *temporary = fopen(temporary_path, "rw+");
+    FILE *temporary = fopen(temporary_path, "w+");
     char *line = (char *)calloc(STR_LEN, sizeof(char));
     char *tokens[ARR_LEN];
     for (int i = 0; i < ARR_LEN; i++)
     {
         tokens[i] = (char *)calloc(STR_LEN, sizeof(char));
     }
+    int flag = 0;
     for (int i = 0; fgets(line, STR_LEN, alias) != NULL; i++)
     {
         int cnt = 0;
@@ -277,7 +278,12 @@ void sh_builtin_alias_add(char *var1, char *var2)
 
         if (!strcmp(tokens[0], var1))
         {
-            continue;
+            flag = 1;
+            for (int j = 0; strcmp(tokens[j], ""); j++)
+            {
+                fprintf(temporary, "%s ", tokens[j]);
+            }
+            fprintf(temporary, "%s \n", var2);
         }
         else
         {
@@ -288,7 +294,10 @@ void sh_builtin_alias_add(char *var1, char *var2)
             fprintf(temporary, "\n");
         }
     }
-    fprintf(temporary, "%s += %s\n", var1, var2);
+    if (!flag)
+    {
+        fprintf(temporary, "%s = %s %s\n", var1, var1, var2);
+    }
     fclose(temporary);
     temporary = NULL;
     fclose(alias);
@@ -336,12 +345,12 @@ void sh_builtin_alias_delete(char *var1)
         strcat(temporary_path, "/.mysh/temporary");
     }
 
-    FILE *alias = fopen(alias_path, "rw+");
+    FILE *alias = fopen(alias_path, "w+");
     if (access(temporary_path, F_OK))
     {
         remove(temporary_path);
     }
-    FILE *temporary = fopen(temporary_path, "rw+");
+    FILE *temporary = fopen(temporary_path, "w+");
     char *line = (char *)calloc(STR_LEN, sizeof(char));
     char *tokens[ARR_LEN];
     for (int i = 0; i < ARR_LEN; i++)

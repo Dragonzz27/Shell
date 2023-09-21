@@ -87,7 +87,7 @@ void sh_input_process(char **tokens, int is_run_background)
                 sh_builtin_alias_delete(var1);
                 i = i + 3;
             }
-            else // "+="
+            else
             {
                 strcpy(var1, tokens[i + 1]);
                 strcpy(var2, tokens[i + 3]);

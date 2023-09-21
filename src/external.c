@@ -13,8 +13,8 @@
 
 void run_simple_command(char **para, int is_pipe_front, int is_run_background)
 {
-    printf("Run Simple Command!\n");
-    sh_print_para(para);
+    // printf("Run Simple Command!\n");
+    // sh_print_para(para);
     int pid = fork();
     if (pid < 0)
     {
@@ -31,6 +31,7 @@ void run_simple_command(char **para, int is_pipe_front, int is_run_background)
             close(0);
             dup(fd);
         }
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -68,6 +69,7 @@ void run_redirect_output_command(char **para, char *filepath, int is_pipe_front,
         close(1);
         int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -104,6 +106,7 @@ void run_redirect_output_append_command(char **para, char *filepath, int is_pipe
         close(1);
         int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -172,6 +175,7 @@ void run_redirect_input_command(char **para, char *filepath, int is_pipe_end, in
             dup(fd);
         }
 
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -284,7 +288,7 @@ void run_input_trunc_command(char **para, char *delim, int is_pipe_front, int is
             close(1);
             dup(fd);
         }
-
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -322,6 +326,7 @@ void run_redirect_error_command(char **para, char *filepath, int is_pipe_front, 
         int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0644);
         close(2);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -359,6 +364,7 @@ void run_redirect_error_append_command(char **para, char *filepath, int is_pipe_
         int fd = open(filepath, O_RDWR | O_CREAT | O_APPEND, 0644);
         close(2);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -398,6 +404,7 @@ void run_redirect_output_error_command(char **para, char *filepath, int is_pipe_
         dup(fd);
         close(2);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);
@@ -435,17 +442,20 @@ void run_redirect_pipeline_command(char **para, int is_pipe_front, int is_run_ba
         struct passwd *pwd;
         pwd = getpwuid(getuid());
         char *path = (char *)calloc(STR_LEN, sizeof(char));
-        if (CONFIG_FILE_IN_CURRENT_DIR) {
+        if (CONFIG_FILE_IN_CURRENT_DIR)
+        {
             strcpy(path, "../config");
             strcat(path, "/pipeline");
         }
-        else {
+        else
+        {
             strcpy(path, pwd->pw_dir);
             strcat(path, "/.mysh/pipeline");
         }
         int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
         close(1);
         dup(fd);
+        sh_tokens_alias(para);
         sh_para_addnull(para);
         execvp(para[0], para);
         exit(EXIT_FAILURE);

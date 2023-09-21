@@ -66,7 +66,7 @@ int sh_input_preprocess(char *input)
     for (int i = 0; i < strlen(input); i++)
     {
         ch = input[i];
-        if (ch == '<' || ch == '>' || ch == '|' || ch == '-' || ch == '=')
+        if (ch == '<' || ch == '>' || ch == '|' || ch == '-')
         {
             if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '-' || pre_ch == '=' || pre_ch == '+')
             {
@@ -82,9 +82,13 @@ int sh_input_preprocess(char *input)
         {
             is_run_background = 1;
         }
+        else if (ch == '=')
+        {
+            tmp[cnt++] = ch;
+        }
         else
         {
-            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '&' || pre_ch == '=')
+            if (pre_ch == '<' || pre_ch == '>' || pre_ch == '|' || pre_ch == '&')
             {
                 tmp[cnt++] = ' ';
                 tmp[cnt++] = ch;
