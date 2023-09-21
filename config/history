@@ -185,5 +185,47 @@ echo $PATH
 echo $PATH
 type ls
 type type
-
 exit
+ls
+type ls
+ls --color=tty
+ls
+alias ls += --color=auto
+ls
+alias ls += -l
+alias ls -
+alias ls -
+ls
+echo $PATH
+ls
+ls -a
+ls -l
+alias ls += -l
+alias ls -
+alias ls -
+ls
+ls
+ls
+ls
+exit
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+exit
+ls
+ls
+exit
+ls
+ls
+ls
+l

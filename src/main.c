@@ -37,6 +37,7 @@ void sh_main_loop()
     char *history_path = (char *)calloc(STR_LEN, sizeof(char));
     char *shellrc_path = (char *)calloc(STR_LEN, sizeof(char));
     char *pipeline_path = (char *)calloc(STR_LEN, sizeof(char));
+    char *alias_path = (char *)calloc(STR_LEN, sizeof(char));
 
     if (CONFIG_FILE_IN_CURRENT_DIR)
     {
@@ -50,6 +51,9 @@ void sh_main_loop()
 
         strcpy(pipeline_path, "../config");
         strcat(pipeline_path, "/pipeline");
+
+        strcpy(alias_path, "../config");
+        strcat(alias_path, "/alias");
     }
     else
     {
@@ -64,6 +68,9 @@ void sh_main_loop()
 
         strcpy(pipeline_path, pwd->pw_dir);
         strcat(pipeline_path, "/.mysh/pipeline");
+
+        strcpy(alias_path, pwd->pw_dir);
+        strcat(alias_path, "/.mysh/alias");
     }
 
     if (access(config_path, F_OK))
@@ -84,6 +91,11 @@ void sh_main_loop()
     if (access(pipeline_path, F_OK))
     {
         creat(pipeline_path, 0774);
+    }
+
+    if (access(alias_path, F_OK))
+    {
+        creat(alias_path, 0774);
     }
 
     read_history(history_path);
@@ -118,6 +130,10 @@ void sh_main_loop()
 
         sh_print_para(tokens);
 
+        sh_tokens_alias(tokens);
+
+        sh_print_para(tokens);
+
         sh_input_process(tokens, is_run_background);
 
         free(work_dir);
@@ -132,6 +148,8 @@ void sh_main_loop()
     }
     free(pipeline_path);
     pipeline_path = NULL;
+    free(alias_path);
+    alias_path = NULL;
     free(shellrc_path);
     shellrc_path = NULL;
     free(history_path);

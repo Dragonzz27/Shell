@@ -235,3 +235,79 @@ void sh_get_builtin_cmd(char *cmd[ARR_LEN])
     strcpy(cmd[6], "export");
     strcpy(cmd[7], "type");
 }
+
+void sh_tokens_alias(char *tokens[ARR_LEN])
+{
+    char *tmp_tokens[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        tmp_tokens[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    char *alias_path = (char *)calloc(STR_LEN, sizeof(char));
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(alias_path, "../config");
+        strcat(alias_path, "/alias");
+    }
+    else
+    {
+        strcpy(alias_path, pwd->pw_dir);
+        strcat(alias_path, "/.mysh/alias");
+    }
+
+    int cnt = 0;
+    for (int i = 0; strcmp(tokens[i], ""); i++)
+    {
+        FILE *alias = fopen(alias_path, "r+");
+        char *line = (char *)calloc(STR_LEN, sizeof(char));
+        int flag = 0;
+        for (int j = 0; fgets(line, STR_LEN, alias) != NULL; j++)
+        {
+            char *tmp = strtok(line, " \n");
+            if (!strcmp(tokens[i], tmp))
+            {
+                while (tmp != NULL)
+                {
+                    if (strcmp(tmp, "="))
+                    {
+                        if (!flag)
+                        {
+                            flag = 1;
+                        }
+                        else
+                        {
+                            strcpy(tmp_tokens[cnt++], tmp);
+                        }
+                    }
+                    tmp = strtok(NULL, " \n");
+                }
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag)
+        {
+            strcpy(tmp_tokens[cnt++], tokens[i]);
+        }
+
+        free(line);
+        line = NULL;
+        fclose(alias);
+        alias = NULL;
+    }
+
+    for (int i = 0; strcmp(tmp_tokens[i], ""); i++)
+    {
+        strcpy(tokens[i], tmp_tokens[i]);
+    }
+    free(alias_path);
+    alias_path = NULL;
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        free(tmp_tokens[i]);
+        tmp_tokens[i] = NULL;
+    }
+}

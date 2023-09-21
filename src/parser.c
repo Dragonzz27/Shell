@@ -79,6 +79,22 @@ void sh_input_process(char **tokens, int is_run_background)
             sh_builtin_type(var1);
             i = i + 2;
         }
+        else if (!strcmp(tokens[i], "alias"))
+        {
+            if (!strcmp(tokens[i + 2], "-"))
+            {
+                strcpy(var1, tokens[i + 1]);
+                sh_builtin_alias_delete(var1);
+                i = i + 3;
+            }
+            else // "+="
+            {
+                strcpy(var1, tokens[i + 1]);
+                strcpy(var2, tokens[i + 3]);
+                sh_builtin_alias_add(var1, var2);
+                i = i + 4;
+            }
+        }
         else
         {
             for (int j = i + 1; strcmp(tokens[j], ""); j++)

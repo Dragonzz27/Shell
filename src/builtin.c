@@ -224,3 +224,168 @@ void sh_builtin_exit()
 {
     exit(EXIT_SUCCESS);
 }
+
+void sh_builtin_alias_add(char *var1, char *var2)
+{
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    char *alias_path = (char *)calloc(STR_LEN, sizeof(char));
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(alias_path, "../config");
+        strcat(alias_path, "/alias");
+    }
+    else
+    {
+        strcpy(alias_path, pwd->pw_dir);
+        strcat(alias_path, "/.mysh/alias");
+    }
+
+    char *temporary_path = (char *)calloc(STR_LEN, sizeof(char));
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(temporary_path, "../config");
+        strcat(temporary_path, "/pipeline");
+    }
+    else
+    {
+        strcpy(temporary_path, pwd->pw_dir);
+        strcat(temporary_path, "/.mysh/pipeline");
+    }
+
+    FILE *alias = fopen(alias_path, "rw+");
+    if (access(temporary_path, F_OK))
+    {
+        remove(temporary_path);
+    }
+    FILE *temporary = fopen(temporary_path, "rw+");
+    char *line = (char *)calloc(STR_LEN, sizeof(char));
+    char *tokens[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        tokens[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+    for (int i = 0; fgets(line, STR_LEN, alias) != NULL; i++)
+    {
+        int cnt = 0;
+        char *tmp = strtok(line, " \n");
+        while (tmp != NULL)
+        {
+            strcpy(tokens[cnt++], tmp);
+            tmp = strtok(NULL, " \n");
+        }
+
+        if (!strcmp(tokens[0], var1))
+        {
+            continue;
+        }
+        else
+        {
+            for (int j = 0; strcmp(tokens[j], ""); j++)
+            {
+                fprintf(temporary, "%s ", tokens[j]);
+            }
+            fprintf(temporary, "\n");
+        }
+    }
+    fprintf(temporary, "%s += %s\n", var1, var2);
+    fclose(temporary);
+    temporary = NULL;
+    fclose(alias);
+    alias = NULL;
+    remove(alias_path);
+    rename(temporary_path, alias_path);
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        free(tokens[i]);
+        tokens[i] = NULL;
+    }
+    free(line);
+    line = NULL;
+    free(temporary_path);
+    temporary_path = NULL;
+    free(alias_path);
+    alias_path = NULL;
+}
+
+void sh_builtin_alias_delete(char *var1)
+{
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    char *alias_path = (char *)calloc(STR_LEN, sizeof(char));
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(alias_path, "../config");
+        strcat(alias_path, "/alias");
+    }
+    else
+    {
+        strcpy(alias_path, pwd->pw_dir);
+        strcat(alias_path, "/.mysh/alias");
+    }
+
+    char *temporary_path = (char *)calloc(STR_LEN, sizeof(char));
+    if (CONFIG_FILE_IN_CURRENT_DIR)
+    {
+        strcpy(temporary_path, "../config");
+        strcat(temporary_path, "/temporary");
+    }
+    else
+    {
+        strcpy(temporary_path, pwd->pw_dir);
+        strcat(temporary_path, "/.mysh/temporary");
+    }
+
+    FILE *alias = fopen(alias_path, "rw+");
+    if (access(temporary_path, F_OK))
+    {
+        remove(temporary_path);
+    }
+    FILE *temporary = fopen(temporary_path, "rw+");
+    char *line = (char *)calloc(STR_LEN, sizeof(char));
+    char *tokens[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        tokens[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+    for (int i = 0; fgets(line, STR_LEN, alias) != NULL; i++)
+    {
+        int cnt = 0;
+        char *tmp = strtok(line, " \n");
+        while (tmp != NULL)
+        {
+            strcpy(tokens[cnt++], tmp);
+            tmp = strtok(NULL, " \n");
+        }
+
+        if (!strcmp(tokens[0], var1))
+        {
+            continue;
+        }
+        else
+        {
+            for (int j = 0; strcmp(tokens[j], ""); j++)
+            {
+                fprintf(temporary, "%s ", tokens[j]);
+            }
+            fprintf(temporary, "\n");
+        }
+    }
+    fclose(temporary);
+    temporary = NULL;
+    fclose(alias);
+    alias = NULL;
+    remove(alias_path);
+    rename(temporary_path, alias_path);
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        free(tokens[i]);
+        tokens[i] = NULL;
+    }
+    free(line);
+    line = NULL;
+    free(temporary_path);
+    temporary_path = NULL;
+    free(alias_path);
+    alias_path = NULL;
+}

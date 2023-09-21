@@ -1,0 +1,2 @@
+ls = ls --color=tty
+l = ls -a -l
