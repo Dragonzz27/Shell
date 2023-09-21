@@ -172,3 +172,18 @@ exit
 ls | grep CM
 ls
 exit
+echo $PATH
+echo $PATH
+echo $SHELL
+echo $PATH
+exit
+echo $PATH
+ls
+echo $PATH
+exit
+echo $PATH
+echo $PATH
+type ls
+type type
+
+exit

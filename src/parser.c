@@ -20,7 +20,7 @@ void sh_input_process(char **tokens, int is_run_background)
         char *para[ARR_LEN];
         for (int j = 0; j < ARR_LEN; j++)
         {
-            para[j] = (char *)calloc(STR_LEN, sizeof(char));
+            para[j] = (char *)calloc(PATH_LEN, sizeof(char));
         }
         char *filepath = (char *)calloc(STR_LEN, sizeof(char));
         char *var1 = (char *)calloc(STR_LEN, sizeof(char));
@@ -72,6 +72,12 @@ void sh_input_process(char **tokens, int is_run_background)
                 sh_builtin_export_append(var1, var2);
             }
             i = i + 4;
+        }
+        else if (!strcmp(tokens[i], "type"))
+        {
+            strcpy(var1, tokens[i + 1]);
+            sh_builtin_type(var1);
+            i = i + 2;
         }
         else
         {

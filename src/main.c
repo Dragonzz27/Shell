@@ -116,6 +116,8 @@ void sh_main_loop()
 
         sh_tokens_evaluate(tokens);
 
+        sh_print_para(tokens);
+
         sh_input_process(tokens, is_run_background);
 
         free(work_dir);

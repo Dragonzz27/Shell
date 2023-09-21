@@ -29,3 +29,5 @@ void sh_path_split(char *path, char *paths[ARR_LEN]);
 void sh_tokens_evaluate(char *tokens[ARR_LEN]);
 
 char *sh_env_evaluate(char *token);
+
+void sh_get_builtin_cmd(char *cmd[ARR_LEN]);

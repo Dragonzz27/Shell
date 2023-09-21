@@ -223,3 +223,15 @@ void sh_tokens_evaluate(char *tokens[ARR_LEN])
         }
     }
 }
+
+void sh_get_builtin_cmd(char *cmd[ARR_LEN])
+{
+    strcpy(cmd[0], "help");
+    strcpy(cmd[1], "cd");
+    strcpy(cmd[2], "exit");
+    strcpy(cmd[3], "history");
+    strcpy(cmd[4], "where");
+    strcpy(cmd[5], "which");
+    strcpy(cmd[6], "export");
+    strcpy(cmd[7], "type");
+}

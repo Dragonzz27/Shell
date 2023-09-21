@@ -15,9 +15,8 @@ void sh_builtin_help()
     {
         cmd[i] = (char *)calloc(STR_LEN, sizeof(char));
     }
-    strcpy(cmd[0], "help");
-    strcpy(cmd[1], "cd");
-    strcpy(cmd[2], "exit");
+
+    sh_get_builtin_cmd(cmd);
 
     for (int i = 0; strcmp(cmd[i], ""); i++)
     {
@@ -192,6 +191,33 @@ void sh_builtin_history()
     fp = NULL;
     free(result);
     result = NULL;
+}
+
+void sh_builtin_type(char *filename)
+{
+    char *cmd[ARR_LEN];
+    for (int i = 0; i < ARR_LEN; i++)
+    {
+        cmd[i] = (char *)calloc(STR_LEN, sizeof(char));
+    }
+
+    sh_get_builtin_cmd(cmd);
+
+    int flag = 0;
+    for (int i = 0; strcmp(cmd[i], ""); i++)
+    {
+        if (!strcmp(cmd[i], filename))
+        {
+            printf("%s is a shell builtin\n", filename);
+            flag = 1;
+            break;
+        }
+    }
+
+    if (flag == 0)
+    {
+        sh_builtin_which(filename);
+    }
 }
 
 void sh_builtin_exit()
